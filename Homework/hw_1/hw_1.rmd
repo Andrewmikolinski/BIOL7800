@@ -1,4 +1,4 @@
-
+---
 title: "hw_1.rmd"
 author: "Andrew Mikolinski"
 date: "2023-09-14"
