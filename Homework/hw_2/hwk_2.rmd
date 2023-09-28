@@ -56,11 +56,11 @@ x[is.na(x)]
 ```{r}
 data("mtcars")
 mtcars$mpg
-mpg_2 <- 
-  ifelse(mtcars$mpg < 16, "Low", 
+cbind(mpg_2 = mpg_2 <- 
+       ifelse(mtcars$mpg < 16, "Low", 
          ifelse(mtcars$mpg >= 16 | mtcars$mpg < 21, "Low_intermediate", 
                 ifelse(mtcars$mpg >= 21 | mtcars$mpg < 26, "Intermediate_high", 
-                       ifelse(mtcars$mpg >= 26, "High"))))
+                       ifelse(mtcars$mpg >= 26, "High")))), mtcars)
 mpg_2
 ```
 
