@@ -1,0 +1,25 @@
+---
+title: "A spatial pattern of dicot diversity in North America"
+author: "Andrew Mikolinski"
+date: "2023-10-09"
+output: html_document
+---
+
+## Introduction ##
+
+It is a well documented fact that, plant diversity for an anrea of a given geographic size varies from one geographic region to another. One of the most well known patterns of spatial biodiversity is that species richness of a given region decreases with increasing latitude. With a wide variety of different environments, North America likely exhibits striking gradients in floral diversity both along a latitudinal gradient and between environment types. These spatial patterns presumably determine the geographic patterns of plant diversity in North America and therefore influence the floristic relationships between different regions. There is significant location data for many of the thousands of different species in north america but the relationships between different species, genera, and families have only been assessed on broad spatial scales representing broad biomes like deserts, temperate forests, grasslands, etc., but making such assessments over broad biomes like these ignores the finer differences between biomes by looping many relatively small biomes together. This study will assess floristic relationships on finer geographic scales.
+
+## Data Required ##
+
+At the time that I am writing this, I have already attempted some "pilot" studies to determine what sort of trends this type of analysis might produce. I have already downloaded millions of relevant datapoints from GBIF.org and from herbarium specimens for which location data is available and compiled them in a way that suits my project and in a way that R will recognize. Many of the datapoints I have downloaded represent research grade observations made on iNaturalist for which coordinates (accurate to 50m) were available representing all speices of dicots that meet the criteria I specified. Other datapoints have been collected from online herbarium databases such as the Smithsonians herbarium. Exact coordinates are not always available for herbarium specimens but on the scales that I will be working at, an approximate location should do just fine.
+
+## Questions/Analyses ##
+
+For this study I will be using the Sorenson and Simpson diversity indices as well as the Jaccard index for my comparisons of floral relatedness.
+
+I will be attempting to answer the questions:
+
+How does regional dicot diversity vary on a latitudinal gradient?
+How does regional dicot diversity vary on a longitudinal gradient?
+On smaller spatial scales, are the trends in latitudinal and longitudinal gradient still apparent, and to what degree?
+How is average diversity between groups affected over distance in similar biomes? 
