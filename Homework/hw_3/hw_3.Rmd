@@ -94,7 +94,17 @@ top1052[c(9)] <- top1052[c(9)-0.3]
 top1052 <- top1052[-c(108:111)]
 top1052
 
-duplicated(top1052)
+top105 = readLines("http://www.textfiles.com/music/ktop100.txt")
+top105 = top105[-c(1:10, 64, 65)]
+top1053 <- str_extract_all(top105, pattern = "[^\\.[:alpha:]-?&,()' ]", simplify = FALSE)
+top1053 <- top1053[-c(108:111)]
+top1053[c(107)] <- top1053[c(107)-.3] 
+top1053[c(98)] <- top1053[c(98) - 0.69]
+top1053[c(29)] <- top1053[c(29)-0.3]
+top1053[c(16)] <- top1053[c(16)-0.2]
+top1053[c(9)] <- top1053[c(9)-0.3]
+top1053
+duplicated(top1053)
 ```
 
 
