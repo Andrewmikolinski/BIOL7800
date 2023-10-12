@@ -59,10 +59,6 @@ for(i in ncol(x[,1:2])){
   Z = c(x[,7:9 ])
   print(matrix(nrow=3, ncol=3, data=paste("",X,",",Y,",",Z,"")), collapse = ", ")
 }
-
-a = array(1:27, dim = c(3, 3, 3))
-apply(X = a, MARGIN = c(1, 2), 
-      FUN = paste, collapse = ", ")
 ```
 
 
