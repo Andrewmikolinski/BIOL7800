@@ -9,16 +9,15 @@ output:
 
 ## Question 1 ##
 
-set.seed(12) # to be reproducible
+
 A = matrix(data = runif(n = 1:500), nrow = 50, ncol = 10)
 colnames(A) = paste("lake", 1:10, sep = "_")
 set.seed(12) # to be reproducible
 
 
-
-
-
 ```{r}
+set.seed(12) 
+
 A = matrix(data = runif(n = 1:500), nrow = 50, ncol = 10)
 
 colnames(A)= paste("lake",1:10,sep = "_")
@@ -51,16 +50,15 @@ y2
 
 ## Question 2 ##
 ```{r}
-x = 1:9
-y = 10:18
-z = 19:27
 
-for (i in i <=9){
-  x <= 9
-  for (i in i <= 18) {
-    y > 9
-    for (i in i) {
-      z > 18
+X = c(1:27)
+X
+for (i in intersect(X, i <= 9)){
+  x = X[c(1:9)]
+  for (i in X) {
+    y = X[c(10:18)]
+    for (i in X) {
+      z = X[c(19:27)]
       print(matrix(nrow = 3, ncol = 3, data=paste("",x,",",y,",",z,"")))
     }
   }
@@ -103,7 +101,6 @@ top1053[c(98)] <- top1053[c(98) - 0.69]
 top1053[c(29)] <- top1053[c(29)-0.3]
 top1053[c(16)] <- top1053[c(16)-0.2]
 top1053[c(9)] <- top1053[c(9)-0.3]
-top1053
 duplicated(top1053)
 ```
 

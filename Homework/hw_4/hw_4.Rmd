@@ -1,0 +1,67 @@
+---
+title: "hw_4"
+author: "Andrew Mikolinski"
+date: "2023-10-31"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+
+library("xml2")
+
+# Question 1
+```{r}
+suppressWarnings({
+library("rvest")
+library("tidyverse")
+})
+
+url <- "https://introdatasci.dlilab.com/schedule_materials/"
+page <- read_html(url)
+schedule_table <- page %>% 
+  html_nodes("table") %>% 
+  .[[1]] %>% 
+  html_table()
+materials_table <- page %>% 
+  html_nodes("table") %>% 
+  .[[2]] %>% 
+  html_table()
+schedule_table
+materials_table
+```
+
+# Question 2
+```{r}
+schedule_table$month <- str_extract(schedule_table$Date, "[A-Za-z]{3}")
+schedule_table$day <- as.numeric(str_extract(schedule_table$Date, "\\d+"))
+schedule_table
+```
+
+
+# Question 3
+```{r}
+lecture_counts <- schedule_table %>%
+  group_by(month) %>%
+  summarise(lecture_count = n())
+lecture_counts <- schedule_table %>%
+  group_by(month) %>%
+  summarise(lecture_count = n())
+lecture_counts
+```
+
+# Question 4
+```{r}
+topic_words <- schedule_table %>%
+  mutate(words = str_split(Topic, "\\s+")) %>%
+  pull(words) %>%
+  unlist()
+word_freq <- table(topic_words)
+sorted_word_freq <- sort(word_freq, decreasing = TRUE)
+top_5_words <- head(names(sorted_word_freq), 5)
+data.frame(Word = top_5_words, Frequency = sorted_word_freq[top_5_words])
+```
+
+
+
