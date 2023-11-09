@@ -1,0 +1,67 @@
+---
+title: "hw_5.rmd"
+author: "Andrew Mikolinski"
+date: "2023-11-09"
+output:
+  pdf_document: default
+  html_document: default
+---
+## Question 1
+```{r, warning=FALSE}
+library("neonDivData")
+data("data_plant", package = "neonDivData")
+data_plant$genus <- sub("^([A-Za-z]+)\\s.*", "\\1", data_plant$taxon_name)
+unique_genus_names <- sort(unique(data_plant$genus))
+random_genus_sample <- sample(unique_genus_names, 100)
+print(random_genus_sample)
+```
+
+## Question 2
+```{r}
+data_plant$taxon_name2 <- sub("^([A-Za-z]+\\s[A-Za-z]+).*", "\\1", data_plant$taxon_name)
+unique_species_names <- sort(unique(data_plant$taxon_name2))
+random_species_sample <- sample(unique_species_names, 100)
+print(random_species_sample)
+```
+
+## Question 3
+```{r, warning=FALSE}
+library(dplyr)
+n_1 <- data_plant %>%
+  filter(sample_area_m2 == 1) %>%
+  group_by(siteID) %>%
+  summarize(richness_1m2 = n_distinct(taxon_name2))
+n_10 <- data_plant %>%
+  filter(sample_area_m2 %in% c(1, 10)) %>%
+  group_by(siteID) %>%
+  summarize(richness_10m2 = n_distinct(taxon_name2))
+n_100 <- data_plant %>%
+  filter(sample_area_m2 %in% c(1, 10, 100)) %>%
+  group_by(siteID) %>%
+  summarize(richness_100m2 = n_distinct(taxon_name2))
+n_all <- left_join(n_1, n_10) %>% left_join(n_100)
+n_all
+```
+
+## Question 4 
+```{r, warning=FALSE}
+library(tidyr)
+n_all_ldf <- n_all %>%
+  pivot_longer(
+    cols = starts_with("richness_"),
+    names_to = "spatial_scale",
+    values_to = "richness"
+  )
+n_all_ldf
+```
+
+
+## Question 5
+```{r, warning=FALSE}
+library(ggplot2)
+ggplot(n_all_ldf, aes(x = spatial_scale, y = richness, group = siteID)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Spatial Scale",
+       y = "Richness")
+```
