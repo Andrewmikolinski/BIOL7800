@@ -1,0 +1,99 @@
+---
+title: "hw_6"
+author: "Andrew Mikolinski"
+date: "2023-11-16"
+output:
+  pdf_document: default
+  html_document: default
+---
+# Question 1a
+```{r}
+d = data.frame(x <- c(110.5, 105.4, 118.1, 104.5, 93.6, 84.1, 77.8, 75.6), 
+               y <- c(5.755, 5.939, 6.010, 6.545, 6.730, 6.750, 6.899, 7.862))
+fit_d <- lm(y ~ x, data=d)
+coefficients <- coef(fit_d)
+beta1_hat <- coefficients[2]
+print(beta1_hat)
+```
+## since the $\beta$ value is negative, it means that as the plant height increases, the grain yield is going to decrease. 
+
+# Question 1b
+```{r}
+anova(fit_d)
+t.test(x, y, paired = TRUE, conf.level = .95)
+```
+## The ANOVA resulted in a very high F value and the t test yielded a low p value indicating that the results are significant
+
+# Question 1c
+
+```{r}
+qt(0.025, 6)
+summary(fit_d)
+confint(fit_d, alpha = 0.025)
+```
+## The confidence intervals that I got by hand are (8.077, 12.198) and (-0.0586, -0.0158). The confidence interval for &]$beta~0~$ are very accurate with the R output, the values calculated for &]$beta~1~$ are not quite as accurate but this may be a rounding error on my part.The equations I used were: $\beta$~0~ $\pm$ -2.447(0.842) where $\beta$~0~ = 10.13746 and $\beta$~1~ $\pm$ -2.447(0.842) where $\beta$~1~ = -0.0372
+
+# Question 1d
+```{r}
+anova(fit_d)
+coef(fit_d)["x"]
+coef(fit_d)[1]
+```
+## The raw residuals are 6 degrees of freedom, 0.78794 SS, and 0.13132 MS. The linear equation is \( \hat{y} \) = 10.13746 - 0.03717X.
+
+# Question 1e
+
+```{r}
+sigma_hat <- sigma(fit_d)
+sigma_hat
+```
+
+# Question 1f
+```{r}
+mu_hat <- predict(fit_d, newdata = data.frame(x = 100), interval = "confidence", level = 0.95)
+mu_hat
+```
+# Question 1g
+
+```{r}
+prediction <- predict(fit_d, newdata = data.frame(x = 100), interval = "prediction", level = 0.95)
+print(prediction)
+```
+## The fit is the same between, but the 95% interval is wider for the answer to question 1g
+# Question 1h
+```{r}
+summary_stats <- summary(fit_d)
+r_squared <- summary_stats$r.squared
+print(r_squared)
+```
+## This value for the coefficient of determination R^2^ means that the model explains most of the variance in the response data but not all of it
+
+#Question 2a
+```{r}
+X = c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+Y = c(-2.08, -0.72, 0.28, 0.92, 1.20, 1.12, 0.68, -0.12, -1.28)
+plot(X, Y, pch = 16, col = "blue", main = "Scatter Plot of y vs. x", xlab = "x", 
+     ylab = "y")
+```
+# Question 2b
+```{r}
+model <- lm(Y ~ X)
+residuals1 <- residuals(model)
+plot(Y, residuals1, pch = 16, col = "red", main = "Residuals vs. Y", xlab = "Y", 
+     ylab = "Residuals")
+
+```
+# Question 2c
+```{r}
+plot(X, residuals1, pch = 16, col = "red", main = "Residuals vs. X", 
+     xlab = "X", ylab = "Residuals")
+```
+# Question 2d
+```{r}
+fitted_values <- fitted(model)
+plot(fitted_values, residuals1, pch = 16, col = "green", 
+     main = "Residuals vs. Fitted Values", 
+     xlab = "Fitted Values", ylab = "Residuals")
+
+```
+## The only real difference in the data between \( \hat{Y} \) and X is the scale of the data but the overall pattern is the same.The plot of Y vs residuals is a better indicator of the lack of fit because any pattern in the residuals is more closely related to the actual observed values.
