@@ -1,0 +1,10 @@
+---
+title: "Homework 7"
+author: "Andrew Mikolinski"
+date: "2023-12-03"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+https://github.com/Andrewmikolinski/R-Package
