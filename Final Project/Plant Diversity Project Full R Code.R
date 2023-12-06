@@ -2093,6 +2093,7 @@ SMF_shannon2 <- bind_rows(FM(OK_SMF_shannon, "Southeast Mixed Forest"), FM(AR_SM
 LMF_shannon2 <- bind_rows(FM(PA_LMF_shannon, "Laurentian_Mixed_Forest"), FM(NY_LMF_shannon, "Laurentian_Mixed_Forest"), FM(ME_LMF_shannon, "Laurentian_Mixed_Forest"), FM(MN_LMF_shannon, "Laurentian_Mixed_Forest"), FM(WI_LMF_shannon, "Laurentian_Mixed_Forest"), FM(MI_LMF_shannon, "Laurentian_Mixed_Forest"))
 
 EF = bind_rows(MRF_shannon2, MF_shannon2, CMF_shannon2, EBF_shannon2, LMF_shannon2, EBFC_shannon2)
+write.csv(EF, "C:\\Users\\andre\\Documents\\BIOL7800\\Final Project\\Shannon Only\\EF.csv")
 EF$biome <- factor(EF$biome)
 EF$lat <- as.numeric(EF$lat)
 
@@ -2102,6 +2103,7 @@ A_shannon2 <- bind_rows(FM(NY_A_shannon, "Adirondack"), FM(NE_A_shannon, "Adiron
 ABF_shannon2 <- bind_rows(FM(GA_ABF_shannon, "Appalachian Broadleaf Forest"), FM(TN_ABF_shannon, "Appalachian Broadleaf Forest"), FM(NC_ABF_shannon, "Appalachian Broadleaf Forest"), FM(VA_ABF_shannon, "Appalachian Broadleaf Forest"), FM(WV_ABF_shannon, "Appalachian Broadleaf Forest"), FM(MD_ABF_shannon, "Appalachian Broadleaf Forest"), FM(PA_ABF_shannon, "Appalachian Broadleaf Forest"),
                           FM(SC_ABF_shannon, "Appalachian Broadleaf Forest"))
 EM = bind_rows(A_shannon2, ABF_shannon2)
+write.csv(EM, "C:\\Users\\andre\\Documents\\BIOL7800\\Final Project\\Shannon Only\\EM.csv")
 EM$biome <- factor(EM$biome)
 EM$lat <- as.numeric(EM$lat)
 
@@ -2156,6 +2158,7 @@ OK_SPP_shannon <- gen_shannon(OK_SPP)
 SPP_shannon2 <- bind_rows(FM(OK_SPP_shannon, "Subtropical Prairie Parkland"), FM(TX_SPP_shannon, "Subtropical Prairie Parkland"))
 
 G <- bind_rows(SPP_shannon2, GPPS_shannon2, GPS_shannon2, TPP_shannon2)
+write.csv(G, "C:\\Users\\andre\\Documents\\BIOL7800\\Final Project\\Shannon Only\\G.csv")
 G$biome <- factor(G$biome)
 G$lat <- as.numeric(G$lat)
 
@@ -2198,6 +2201,7 @@ ISD_shannon2 <- bind_rows(FM(NV_ISD_shannon, "Inter-Mountain Semi-Desert"), FM(U
 
 
 D <- bind_rows(ISD_shannon2, SP_shannon2, CSD_shannon2, CPAD_shannon2, ADM_shannon2, ASD_shannon2, ISD_shannon2)
+write.csv(D, "C:\\Users\\andre\\Documents\\BIOL7800\\Final Project\\Shannon Only\\D.csv")
 D$lat <- as.numeric(D$lat)
 
 #### Western Forests
@@ -2220,7 +2224,7 @@ WF <- bind_rows(FM(OR_CCCF_shannon, "California Coastal Chapparel Forest"),
                    FM(CA_CCROW13_shannon, "California Coastal Range Open Woodland"),
                    FM(CA_CCROW3_shannon, "California Coastal Range Open Woodland"))
                          
-
+write.csv(WF, "C:\\Users\\andre\\Documents\\BIOL7800\\Final Project\\Shannon Only\\WF.csv")
 WF$lat <- as.numeric(WF$lat)
 
 
@@ -2287,7 +2291,7 @@ WM$lat <- as.numeric(WM$lat)
 
 
 WM$lat <- as.numeric(WM$lat)
-
+write.csv(WM, "C:\\Users\\andre\\Documents\\BIOL7800\\Final Project\\Shannon Only\\WM.csv")
 all2 <- bind_rows(FM(OR_CCCF_shannon, "California Coastal Chapparel Forest"),
                   FM(CA_CCCF_shannon, "California Coastal Chapparel Forest"),
                   FM(CA_CCROW13_shannon, "California Coastal Range Open Woodland"),
@@ -2408,7 +2412,7 @@ all2 <- bind_rows(FM(OR_CCCF_shannon, "California Coastal Chapparel Forest"),
                   FM(AR_SMF_shannon, "Southeastern Mixed Forest"),
                   FM(OK_SMF_shannon, "Southeastern Mixed Forest"))
 
-                  
+write.csv(all2, "C:\\Users\\andre\\Documents\\BIOL7800\\Final Project\\Shannon Only\\all.csv")                  
 all2$biome <- factor(all2$biome)
 all2$biome <- relevel(all2$biome, ref = "Southeastern Mixed Forest")
 

@@ -1,49 +1,75 @@
 ---
-title: "Final Project"
+title: "Final_Project"
 author: "Andrew Mikolinski"
 date: "2023-12-05"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
-
+# Introduction
+##    It is very well understood that plant diversity for a region of a given size varies from one geographic area to another. One very well documented trend of biodiversity is that the species richness of a given area decreases on a latitudinal gradient, with the greatest biodiversity found closer to the equator and the least biodiversity closer to the north and south poles (Mittelbach et al., 2007). With a wide variety of different environments and unique biomes, the United States likely exhibits strong diversity gradients both along a latitudinal gradient and between environment types. These patterns may determine the geographic patterns of dicot plant species richness across the country. 
+##    While significant research has been done on the latitudinal gradient of species diversity, the explanations of these mechanisms are not purely attributed to latitude. Macroecological explanations for the decrease in species richness on a latitudinal gradient therefore focus on covariates of latitude such as habitat diversity (Rosenzweig, 1995) and climate (Currie et al., 2004). Relatively few studies have attempted to isolate the differential impacts of latitude on species richness from the impacts of environmental conditions. Such an analysis may provide insight into the patterns of species migration down a latitudinal gradient and speciation following the last ice age. There is a significant amount of location data for the thousands of different species that can be found in the United States some of which can be acquired through the online database GBIF. The ultimate goal of this study is to separate the effects of differences in environmental and climatic conditions associated with each biome and assess the impacts purely of latitude on species richness. 
+##    Biome type and latitude are integrally correlated because average annual temperatures decrease with increasing distance from the equator as does seasonal habitat variation in the United States. Therefore, it will be difficult to fully separate the impacts of biome type and latitude. As a result, this project will assess the interaction of biome types and latitude, in addition to assessing the impacts of biome type and latitude on species richness individually. I predict that I will find a significant impact of the interaction between latitude and biome on Shannon diversity index values as well as a significant impact of both biome and latitude individually. I also predict, that out of these the two explanatory variables and the interaction term, I will find that latitude has a more significant negative relationship with species richness than biome type overall.
 
 # Dataset Description
-##    The dataset used in this study consisted of all research grade iNaturalist observations of dicot plant species in the congenital United States, accessed through the GBIF online archive. iNaturalist considers only the observations that have been identified to the species level by multiple parties to be research grade observations. Each observation consists of the taxonomic information for the species observed as well as the coordinates of the observation. Not all location data is exact, and the platform provides the coordinate uncertainty in meters for each observation. The location uncertainty of the majority of observations is relatively small (3m-10m), but all observations where the uncertainty was greater than 100 meters were excluded from this study. Also excluded from this study were all data at latitudes lower than N 30.00000 because the only regions of the United States below this latitude are the southern tip of Texas and much of Florida. The data below N 30.0000 were excluded from this study for several reasons :
-###1)	Compared to the sizes of the other datasets, there were relatively few observations in these regions. 
-###2)	Southern Florida consists of multiple unique biomes which do not have similar counterparts anywhere else in the United States, making comparisons of species diversity between latitudes and biomes fallible. 
-###3)	This study is limited by computational power, and it was best to remove any data that may not be necessary from computations.
-##    All observations of plants from all dicot orders which fit the above criteria were included in this study. In all, the dataset used consisted of over 6 million datapoints of observations of plants from 36 different orders. This dataset was compiled into 10 data frames using the application R, with each data frame consisting of all observations within a specified 2-degree latitude band, starting with all observations between N 30.000000 and N 32.000000, between N 32.000001 and N 34.000000, and so on until the 50th degree of latitude. 
-##    The United States consists of an array of different biome types, but this study consists of only those where the distinction between each biome type and its neighbor could be seen visually using the satellite view of google maps. In all, 24 biome types were included in this study. The latitudinal band data frames were carefully subset into unique biome types by hand using the coordinates provided for each observation, and statistical inference was performed on the biome datasets. I attempted to pull random values from each biome dataset in order to generate replicates for the experiment. Unfortunately, with the large number of datapoints I have at my disposal, I lacked the computational power required to do this. Table 1 below shows an example of some of the raw data that was used in this study.
+
+## The dataset used in this study consisted of all research grade iNaturalist observations of dicot plant species in the congenital United States, accessed through the GBIF online archive. iNaturalist considers only the observations that have been identified to the species level by multiple parties to be research grade observations. Each observation consists of the taxonomic information for the species observed as well as the coordinates of the observation. Not all location data is exact, and the platform provides the coordinate uncertainty in meters for each observation. The location uncertainty of the majority of observations is relatively small (3m-10m), but all observations where the uncertainty was greater than 100 meters were excluded from this study. Also excluded from this study were all data at latitudes lower than N 30.00000 because the only regions of the United States below this latitude are the southern tip of Texas and much of Florida. The data below N 30.0000 were excluded from this study for several reasons :
+
+### 1) Compared to the sizes of the other datasets, there were relatively few observations in these regions. 
+### 2) Southern Florida consists ofmultiple unique biomes which do not have similar counterparts anywhere else in the United States, making comparisons of species diversity between latitudes and biomes fallible. 
+### 3) This study is limited by computational power, and it was best to remove any data that may not be necessary from computations. 
+## All observations of plants from all dicot orders which fit the above criteria were included in this study.In all, the dataset used consisted of over 6 million datapoints of observations of plants from 36 different orders. This dataset was compiled into 10 data frames using the application R, with each data frame consisting of all observations within a specified 2-degree latitude band, starting with all observations between N 30.000000 and N 32.000000, between N 32.000001 and N 34.000000, and so on until the 50thdegree of latitude. 
+## The United States consists of an array of different biome types, but this study consists of only those where the distinction between each biome type and its neighbor could be seen visually using the satellite view of google maps. In all, 24 biome types were included in this study. The latitudinal band data frames were carefully subset into unique biome types by hand using the coordinates provided for each observation, and statistical inference was performed on the biome datasets. I attempted to pull random values from each biome dataset in order to generate replicates for the experiment.Unfortunately, with the large number of datapoints I have at my disposal, I lacked the computational power required to do this at a satisfactory scale but I was successful in generating at least a few replicates for each dataset. Table 1 below shows an example of some of the raw data that was used in this study.
 
 # Statistical Models and Methods
-## Hypothesis testing:
-### Hypothesis testing is performed in the context of this study to identify whether there was a significant difference between Shannon diversity index values across different biomes and different latitudes. Hypothesis testing refers to the use of a test statistic and a specific alpha level to determine the probability that the null hypothesis is true given the data. The null hypothesis represents the situation where the explanatory variables do not have an impact on the response variable. The alternative hypothesis is a statement that contradicts the null hypothesis. If the p-value is smaller than the chosen significance level, it means that the differences in the data likely occurred as a result of the explanatory variables having a statistically significant impact on the response variable. If this is the case, the null hypothesis can be rejected, and the alternative hypothesis is valid.
-## QQ Plot for Normalcy Test:
-###   A QQ plot is a graphical tool that is used to assess whether the quantiles of the observed data align with the theoretical quantiles of a normally distributed dataset. To construct a QQ plot, the data are arranged in ascending order and the corresponding quantiles of each datapoint are calculated. Then the quantiles of the observed data are plotted with their corresponding theoretical quantiles on the graph with a reference line. The reference line shows what a normally distributed dataset will look like, so ideally the points on the graph will match up closely with the reference line. If they do not then a transformation will be needed. The QQ plot is important because many statistical methods assume normality in the data, or normality of residuals.
 
-## Linear Regression: 
-### Linear regression is a type of statistical method that is used for modeling the relationship between the response variable and at least one (but often multiple) explanatory variables. The goal of linear regressions is to quantify the relationship between the variables. Linear modeling provides the coefficient β1 which describes the slope of the regression. β1 is important because if it is a positive number, it would mean that the relationship between the explanatory and response variables is also positive. This means that an increase in the value of the explanatory variable by one unit tends to lead to lead to an increase in the response variable by a number of units equal to the absolute value of β1. Similarly, if β1 is negative, then an increase in the explanatory variable tends to lead to a decrease in the response variable. A critical assumption of linear regressions is that the residuals are normally distributed. If residuals are not normally distributed, then the data will have to be transformed in order to make them normally distributed.
+## Hypothesis testing:
+
+### Hypothesis testing is performed in the context of this study to identify whether there was a significant difference between Shannon diversity index values across different biomes and different latitudes. Hypothesis testing refers to the use of a test statistic and a specific alpha level to determine the probability that the null hypothesis is true given the data. The null hypothesis represents the situation where the explanatory variables do not have an impact on the response variable. The alternative hypothesis is a statement that contradicts the null hypothesis. If the p-value is smaller than the chosen significance level, it means that the differences in the data likely occurred as a result of the explanatory variables having a statistically significant impact on the response variable. If this is the case, the null hypothesis can be rejected, and the alternative hypothesis is valid.
+
+## QQ Plot for Normalcy Test:
+
+### A QQ plot is a graphical tool that is used to assess whether the quantiles of the observed data align with the theoretical quantiles of a normally distributed dataset. To construct a QQ plot, the data are arranged in ascending order and the corresponding quantiles of each datapoint are calculated. Then the quantiles of the observed data are plotted with their corresponding theoretical quantiles on the graph with a reference line. The reference line shows what a normally distributed dataset will look like, so ideally the points on the graph will match up closely with the reference line. If they do not then a transformation will be needed. The QQ plot is important because many statistical methods assume normality in the data, or normality of residuals.
+
+## Linear Regression:
+
+### Linear regression is a type of statistical method that is used for modeling the relationship between the response variable and at least one (but often multiple) explanatory variables. The goal of linear regressions is to quantify the relationship between the variables. Linear modeling provides the coefficient $\beta$~1~ which describes the slope of the regression. $\beta$~1~ is important because if it is a positive number, it would mean that the relationship between the explanatory and response variables is also positive. This means that an increase in the value of the explanatory variable by one unit tends to lead to lead to an increase in the response variable by a number of units equal to the absolute value of $\beta$~1~. Similarly, if $\beta$~1~ is negative, then an increase in the explanatory variable tends to lead to a decrease in the response variable. A critical assumption of linear regressions is that the residuals are normally distributed. If residuals are not normally distributed, then the data will have to be transformed in order to make them normally distributed.
 
 ## ANOVA:
-###   ANOVA, or Analysis of Variance, is a type of statistical technique that is used to compare the means of two or more populations of data to determine if the differences between them are statistically significant. ANOVA is particularly useful if there are more than two groups, as it provides a way to examine the variability between and among populations. ANOVA uses the F-statistic, which shows the ratio of the variance between groups to the variance within groups. A high F-statistic suggests that the population means are statistically different from each other. The critical assumption of ANOVA is that the variances within groups are approximately equal, if there is evidence that this assumption is not satisfied then the results of ANOVA are not reliable. Another assumption of ANOVA is that the populations are approximately normally distributed. In the context of a linear regression, it is less important that the data are normally distributed, and more important that the residuals are normally distributed.
+
+### ANOVA, or Analysis of Variance, is a type of statistical technique that is used to compare the means of two or more populations of data to determine if the differences between them are statistically significant. ANOVA is particularly useful if there are more than two groups, as it provides a way to examine the variability between and among populations. ANOVA uses the F-statistic, which shows the ratio of the variance between groups to the variance within groups. A high F-statistic suggests that the population means are statistically different from each other. The critical assumption of ANOVA is that the variances within groups are approximately equal, if there is evidence that this assumption is not satisfied then the results of ANOVA are not reliable. Another assumption of ANOVA is that the populations are approximately normally distributed. In the context of a linear regression, it is less important that the data are normally distributed, and more important that the residuals are normally distributed.
 
 ## Shannon Diversity Index:
-###   The Shannon diversity index is a technique used in ecology to quantify the species richness of a given region. The index considers both the number of species and the relative abundances of each species. Populations of rarer species are therefore given less weight in the Shannon Diversity Index than populations of common species. A high Shannon Diversity Index value means that the ecological community in question has very high species richness and that the number of individuals of each species is relatively even. The Shannon Diversity index is given by the equation:
-#### H = - ∑Si=1=pi*ln(pi)
-###Where:
-####•	H is the Shannon Diversity Index value
-####•	S is the total number of species living in the community
-####•	pi is the proportion of individuals belonging to the ith species in the community.
-###   There are a few limitations to using the Shannon Diversity Index. Shannon Diversity Indices are sensitive to sample sizes, small sample sizes may produce an inflated Shannon Diversity Index value for the community. The Shannon Diversity index is not sensitive to species identity, it treats all species as equivalent so the Shannon value tells us nothing about the composition of the community, it is just a measure of how many species there are and how they’re distributed. It also assumes that all observations of species are independent of each other, which may not always be the case (Shannon, 1948).
+
+### The Shannon diversity index is a technique used in ecology to quantify the species richness of a given region. The index considers both the number of species and the relative abundances of each species. Populations of rarer species are therefore given less weight in the Shannon Diversity Index than populations of common species. A high Shannon Diversity Index value means that the ecological community in question has very high species richness and that the number of individuals of each species is relatively even. The Shannon Diversity index is given by the equation:
+
+#### H = - $\sum$^S^~i=1~=pi\*ln(pi)
+
+### Where: 
+#### H is the Shannon Diversity Index value 
+#### S is the total number of species living in the community 
+#### p~i~ is the proportion of individuals belonging to the i^th^ species in the community.
+
+### There are a few limitations to using the Shannon Diversity Index.Shannon Diversity Indices are sensitive to sample sizes, small sample sizes may produce an inflated Shannon Diversity Index value for the community. The Shannon Diversity index is not sensitive to species identity, it treats all species as equivalent so the Shannon value tells us nothing about the composition of the community, it is just a measure of how many species there are and how they're distributed. It also assumes that all observations of species are independent of each other, which may not always be the case (Shannon, 1948).
 
 # Analysis and Results:
-## Hypothesis testing was performed to determine the influence that latitude has on Shannon Diversity index values. Additionally, species richness can vary significantly between biome types as a result of environmental conditions. Without analyzing the impact of biome type on species richness, an increase or decrease in richness as a result of biome type may be mistaken as an increase or decrease in species richness as a result of latitude. Linear regression models make it much easier to separate the effects of the biome variable from the effects of the latitude variable. Therefore, the two explanatory variables used in this study were latitude and biome. All computations were done using the R software. Both confidence levels α = 0.1 and α = 0.05 are used and referenced in this study. P-values < 0.1 are only considered marginally significant and p-values < 0.05 is considered significant. The hypotheses tested in this study were:
-### H0: Shannon diversity index values do not decrease significantly with increasing latitude across biomes in the United States. 
-#### β1=0
-### HA: Shannon diversity index values significantly decrease with increasing latitude across biomes in the United States.
-#### β1<0
-## In order for inferences to be made based on a standard linear regression and ANOVA, normality of residuals is important. Before proceeding, it was noted that the data was significantly left skewed, therefore, the data were transformed using the exp() function in R to make the data appear more normal (Figure1). Please note that while the QQplot below is for all datapoints in the entire dataset, all of the data for each of the broader biome types were transformed in this way too, and the QQ plot created for each of them displayed similarly normal residual distributions. While there is some variability around the extreme high and extreme low ends of the QQplot, indicating the presence of outliers, the residuals of the data appear to follow a normal distribution. Additionally, a Residuals vs Fitted plot was generated to determine visually if the homogeneity of variance assumption was violated and there appeared to be no significant visual patterns in the graph that would cause me to believe that this assumption was violated. 
+
+## Hypothesis testing was performed to determine the influence that latitude has on Shannon Diversity index values. Additionally, species richness can vary significantly between biome types as a result of environmental conditions. Without analyzing the impact of biome type on species richness, an increase or decrease in richness as a result of biome type may be mistaken as an increase or decrease in species richness as a result of latitude. Linear regression models make it much easier to separate the effects of the biome variable from the effects of the latitude variable. Therefore, the two explanatory variables used in this study were latitude and biome. All computations were done using the R software. Both confidence levels \( \alpha \) = 0.1 and \( \alpha \) = 0.05 are used and referenced in this study. P-values < 0.1 are only considered marginally significant and p-values < 0.05 is considered significant. The hypotheses tested in this study were:
+
+### H~0~: Shannon diversity index values do not decrease significantly with increasing latitude across biomes in the United States.
+
+#### $\beta$~1~=0
+
+### H~A~: Shannon diversity index values significantly decrease with increasing latitude across biomes in the United States.
+
+#### $\beta$~1~\<0
+
+## In order for inferences to be made based on a standard linear regression and ANOVA, normality of residuals is important. Before proceeding, it was noted that the data was significantly left skewed, therefore, the data were transformed using the exp() function in R to make the data appear more normal (Figure1). Please note that while the QQplot below is for all datapoints in the entire dataset, all of the data for each of the broader biome types were transformed in this way too, and the QQ plot created for each of them displayed similarly normal residual distributions. While there is some variability around the extreme high and extreme low ends of the QQplot, indicating the presence of outliers, the residuals of the data appear to follow a normal distribution. Additionally, a Residuals vs Fitted plot was generated to determine visually if the homogeneity of variance assumption was violated and there appeared to be no significant visual patterns in the graph that would cause me to believe that this assumption was violated.
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(include = FALSE)
 library("vegan")
 library("dplyr")
 library("ggplot2")
@@ -53,352 +79,19 @@ library("maps")
 library("stringr")
 library("car")
 
-CCCF <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/CCCF.csv")
-CA_CCROW <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/CA_CCROW.csv")
-NRMFS <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/NRMFS.csv")
-CAMF <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/CAMF.csv")
-MRMS <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/MRMS.csv")
-NVUTM <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/NVUTM.csv")
-SP <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/SP.csv")
-CSD <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/CSD.csv")
-CPAD <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/CPAD.csv")
-ADM <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/ADM.csv")
-ASD<- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/ASD.csv")
-GPS <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/GPS.csv")
-GPPS <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/GPPS.csv")
-TPP <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/TPP.csv")
-ABF <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/ABF.csv")
-Adirondack <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/Adirondack.csv")
-ISD <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/ISD.csv")
-SRMSOW <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/SRMSOW.csv")
-SMF <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/SMF.csv")
-Mississippi_River_Forest <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/MRF.csv")
-SPP1 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/SPP1.csv")
-SPP2 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/SPP2.csv")
-SPP <- rbind(SPP1, SPP2)
+WM<- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Final%20Project/Shannon%20Only%20Data/WM.csv")
 
-EBF1 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/EBF1.csv")
-EBF2 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/EBF2.csv")
-EBF3 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/EBF3.csv")
-EBF4 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/EBF4.csv")
-EBF <- rbind(EBF1, EBF2, EBF3, EBF4)
+WF<- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Final%20Project/Shannon%20Only%20Data/WF.csv")
 
-MF1 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/MF1.csv")
-MF2 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/MF2.csv")
-MF3 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/MF3.csv")
-Mixed_Forest <- rbind(MF1, MF2, MF3)
+EF<- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Final%20Project/Shannon%20Only%20Data/EF.csv")
 
-CMF1 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/CMF1.csv")
-CMF2 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/CMF2.csv")
-CMF3 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/CMF3.csv")
-Coastal_Mixed_Forest <- rbind(CMF1, CMF2, CMF3)
+EM<- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Final%20Project/Shannon%20Only%20Data/EM.csv")
 
-LMF1 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/LMF1.csv")
-LMF2 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/LMF2.csv")
-LMF <- rbind(LMF1, LMF2)
+D<- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Final%20Project/Shannon%20Only%20Data/D.csv")
 
-EBFC1 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/EBFC1.csv")
-EBFC2 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/EBFC2.csv")
-EBFC3 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Project%20Proposal/Cleaned%20Data/EBFC3.csv")
-EBFC <- rbind(EBFC1, EBFC2, EBFC3)
+G<- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Final%20Project/Shannon%20Only%20Data/G.csv")
 
-count_species <- function(a){
-  nodup <- undup(a)
-  species <- table(nodup$species)
-  species_counts_df <- as.data.frame(species)
-  return(species_counts_df)
-}
-gen_shannon <- function(a){
-  r30.5 <- a[a$decimalLatitude < 30.5, ]
-  cdf30.5 <- count_species(r30.5)
-  if(nrow(cdf30.5) > 3){
-    shannon_index30.5 <- diversity(cdf30.5[,-1], index = "shannon")
-  }else{
-    shannon_index30.5 <- c("N/A")
-  }
-  r31 <- a[a$decimalLatitude >= 30.5 & a$decimalLatitude < 31, ]
-  cdf31 <- count_species(r31)
-  if(nrow(cdf31) > 3){
-    shannon_index31<- diversity(cdf31[,-1], index = "shannon")
-  }else{
-    shannon_index31 <- c("N/A")
-  }
-  r31.5 <- a[a$decimalLatitude >= 31 & a$decimalLatitude < 31.5, ]
-  cdf31.5 <- count_species(r31.5)
-  if(nrow(cdf31.5) > 3){
-    shannon_index31.5 <- diversity(cdf31.5[,-1], index = "shannon")
-  }else{
-    shannon_index31.5<- c("N/A")
-  }
-  r32 <- a[a$decimalLatitude >= 31.5 & a$decimalLatitude < 32, ]
-  cdf32 <- count_species(r32)
-  if(nrow(cdf32) > 3){
-    shannon_index32 <- diversity(cdf32[,-1], index = "shannon")
-  }else{
-    shannon_index32<- c("N/A")
-  }
-  
-  r32.5 <- a[a$decimalLatitude >= 32 & a$decimalLatitude < 32.5, ]
-  cdf32.5 <- count_species(r32.5)
-  if(nrow(cdf32.5) > 3){
-    shannon_index32.5<- diversity(cdf32.5[,-1], index = "shannon")
-  }else{
-    shannon_index32.5 <- c("N/A")
-  }
-  r33 <- a[a$decimalLatitude >= 32.5 & a$decimalLatitude < 33, ]
-  cdf33 <- count_species(r33)
-  if(nrow(cdf33) > 3){
-    shannon_index33<- diversity(cdf33[,-1], index = "shannon")
-  }else{
-    shannon_index33 <- c("N/A")
-  }
-  r33.5 <- a[a$decimalLatitude >= 33 & a$decimalLatitude < 33.5, ]
-  cdf33.5 <- count_species(r33.5)
-  if(nrow(cdf33.5) > 3){
-    shannon_index33.5<- diversity(cdf33.5[,-1], index = "shannon")
-  }else{
-    shannon_index33.5 <- c("N/A")
-  }
-  r34 <- a[a$decimalLatitude >= 33.5 & a$decimalLatitude < 34, ]
-  cdf34 <- count_species(r34)
-  if(nrow(cdf34) > 3){
-    shannon_index34<- diversity(cdf34[,-1], index = "shannon")
-  }else{
-    shannon_index34 <- c("N/A")
-  }
-  r34.5 <- a[a$decimalLatitude >= 34 & a$decimalLatitude < 34.5, ]
-  cdf34.5 <- count_species(r34.5)
-  if(nrow(cdf34.5) > 3){
-    shannon_index34.5<- diversity(cdf34.5[,-1], index = "shannon")
-  }else{
-    shannon_index34.5 <- c("N/A")
-  }
-  r35 <- a[a$decimalLatitude >= 34.5 & a$decimalLatitude < 35, ]
-  cdf35 <- count_species(r35)
-  if(nrow(cdf35) > 3){
-    shannon_index35<- diversity(cdf35[,-1], index = "shannon")
-  }else{
-    shannon_index35 <- c("N/A")
-  }
-  r35.5 <- a[a$decimalLatitude >= 35 & a$decimalLatitude < 35.5, ]
-  cdf35.5 <- count_species(r35.5)
-  if(nrow(cdf35.5) > 3){
-    shannon_index35.5<- diversity(cdf35.5[,-1], index = "shannon")
-  }else{
-    shannon_index35.5 <- c("N/A")
-  }
-  r36 <- a[a$decimalLatitude >= 35.5 & a$decimalLatitude < 36, ]
-  cdf36 <- count_species(r36)
-  if(nrow(cdf36) > 3){
-    shannon_index36<- diversity(cdf36[,-1], index = "shannon")
-  }else{
-    shannon_index36 <- c("N/A")
-  }
-  r36.5 <- a[a$decimalLatitude >= 36 & a$decimalLatitude < 36.5, ]
-  cdf36.5 <- count_species(r36.5)
-  if(nrow(cdf36.5) > 3){
-    shannon_index36.5<- diversity(cdf36.5[,-1], index = "shannon")
-  }else{
-    shannon_index36.5 <- c("N/A")
-  }
-  r37 <- a[a$decimalLatitude >= 36.5 & a$decimalLatitude < 37, ]
-  cdf37 <- count_species(r37)
-  if(nrow(cdf37) > 3){
-    shannon_index37<- diversity(cdf37[,-1], index = "shannon")
-  }else{
-    shannon_index37 <- c("N/A")
-  }
-  r37.5 <- a[a$decimalLatitude >= 37 & a$decimalLatitude < 37.5, ]
-  cdf37.5 <- count_species(r37.5)
-  if(nrow(cdf37.5) > 3){
-    shannon_index37.5<- diversity(cdf37.5[,-1], index = "shannon")
-  }else{
-    shannon_index37.5 <- c("N/A")
-  }
-  r38 <- a[a$decimalLatitude >= 37.5 & a$decimalLatitude < 38, ]
-  cdf38 <- count_species(r38)
-  if(nrow(cdf38) > 3){
-    shannon_index38<- diversity(cdf38[,-1], index = "shannon")
-  }else{
-    shannon_index38 <- c("N/A")
-  }
-  r38.5 <- a[a$decimalLatitude >= 38 & a$decimalLatitude < 38.5, ]
-  cdf38.5 <- count_species(r38.5)
-  if(nrow(cdf38.5) > 3){
-    shannon_index38.5<- diversity(cdf38.5[,-1], index = "shannon")
-  }else{
-    shannon_index38.5 <- c("N/A")
-  }
-  r39 <- a[a$decimalLatitude >= 38.5 & a$decimalLatitude < 39, ]
-  cdf39 <- count_species(r39)
-  if(nrow(cdf39) > 3){
-    shannon_index39<- diversity(cdf39[,-1], index = "shannon")
-  }else{
-    shannon_index39 <- c("N/A")
-  }
-  r39.5 <- a[a$decimalLatitude >= 39 & a$decimalLatitude < 39.5, ]
-  cdf39.5 <- count_species(r39.5)
-  if(nrow(cdf39.5) > 3){
-    shannon_index39.5<- diversity(cdf39.5[,-1], index = "shannon")
-  }else{
-    shannon_index39.5 <- c("N/A")
-  }
-  r40 <- a[a$decimalLatitude >= 39.5 & a$decimalLatitude < 40, ]
-  cdf40 <- count_species(r40)
-  if(nrow(cdf40) > 3){
-    shannon_index40<- diversity(cdf40[,-1], index = "shannon")
-  }else{
-    shannon_index40 <- c("N/A")
-  }
-  r40.5 <- a[a$decimalLatitude >= 40 & a$decimalLatitude < 40.5, ]
-  cdf40.5 <- count_species(r40.5)
-  if(nrow(cdf40.5) > 3){
-    shannon_index40.5<- diversity(cdf40.5[,-1], index = "shannon")
-  }else{
-    shannon_index40.5 <- c("N/A")
-  }
-  r41 <- a[a$decimalLatitude >= 40.5 & a$decimalLatitude < 41, ]
-  cdf41 <- count_species(r41)
-  if(nrow(cdf41) > 3){
-    shannon_index41<- diversity(cdf41[,-1], index = "shannon")
-  }else{
-    shannon_index41 <- c("N/A")
-  }
-  r41.5 <- a[a$decimalLatitude >= 41 & a$decimalLatitude < 41.5, ]
-  cdf41.5 <- count_species(r41.5)
-  if(nrow(cdf41.5) > 3){
-    shannon_index41.5<- diversity(cdf41.5[,-1], index = "shannon")
-  }else{
-    shannon_index41.5 <- c("N/A")
-  }
-  r42 <- a[a$decimalLatitude >= 41.5 & a$decimalLatitude < 42, ]
-  cdf42 <- count_species(r42)
-  if(nrow(cdf42) > 3){
-    shannon_index42<- diversity(cdf42[,-1], index = "shannon")
-  }else{
-    shannon_index42 <- c("N/A")
-  }
-  r42.5 <- a[a$decimalLatitude >= 42 & a$decimalLatitude < 42.5, ]
-  cdf42.5 <- count_species(r42.5)
-  if(nrow(cdf42.5) > 3){
-    shannon_index42.5<- diversity(cdf42.5[,-1], index = "shannon")
-  }else{
-    shannon_index42.5 <- c("N/A")
-  }
-  r43 <- a[a$decimalLatitude >= 42.5 & a$decimalLatitude < 43, ]
-  cdf43 <- count_species(r43)
-  if(nrow(cdf43) > 3){
-    shannon_index43<- diversity(cdf43[,-1], index = "shannon")
-  }else{
-    shannon_index43 <- c("N/A")
-  }
-  r43.5 <- a[a$decimalLatitude >= 43 & a$decimalLatitude < 43.5, ]
-  cdf43.5 <- count_species(r43.5)
-  if(nrow(cdf43.5) > 3){
-    shannon_index43.5<- diversity(cdf43.5[,-1], index = "shannon")
-  }else{
-    shannon_index43.5 <- c("N/A")
-  }
-  r44 <- a[a$decimalLatitude >= 43.5 & a$decimalLatitude < 44, ]
-  cdf44 <- count_species(r44)
-  if(nrow(cdf44) > 3){
-    shannon_index44<- diversity(cdf44[,-1], index = "shannon")
-  }else{
-    shannon_index44 <- c("N/A")
-  }
-  r44.5 <- a[a$decimalLatitude >= 44 & a$decimalLatitude < 44.5, ]
-  cdf44.5 <- count_species(r44.5)
-  if(nrow(cdf44.5) > 3){
-    shannon_index44.5<- diversity(cdf44.5[,-1], index = "shannon")
-  }else{
-    shannon_index44.5 <- c("N/A")
-  }
-  r45 <- a[a$decimalLatitude >= 44.5 & a$decimalLatitude < 45, ]
-  cdf45 <- count_species(r45)
-  if(nrow(cdf45) > 3){
-    shannon_index45<- diversity(cdf45[,-1], index = "shannon")
-  }else{
-    shannon_index45 <- c("N/A")
-  }
-  r45.5 <- a[a$decimalLatitude >= 45 & a$decimalLatitude < 45.5, ]
-  cdf45.5 <- count_species(r45.5)
-  if(nrow(cdf45.5) > 3){
-    shannon_index45.5<- diversity(cdf45.5[,-1], index = "shannon")
-  }else{
-    shannon_index45.5 <- c("N/A")
-  }
-  r46 <- a[a$decimalLatitude >= 45.5 & a$decimalLatitude < 46, ]
-  cdf46 <- count_species(r46)
-  if(nrow(cdf46) > 3){
-    shannon_index46<- diversity(cdf46[,-1], index = "shannon")
-  }else{
-    shannon_index46 <- c("N/A")
-  }
-  r46.5 <- a[a$decimalLatitude >= 46 & a$decimalLatitude < 46.5, ]
-  cdf46.5 <- count_species(r46.5)
-  if(nrow(cdf46.5) > 3){
-    shannon_index46.5<- diversity(cdf46.5[,-1], index = "shannon")
-  }else{
-    shannon_index46.5 <- c("N/A")
-  }
-  r47 <- a[a$decimalLatitude >= 46.5 & a$decimalLatitude < 47, ]
-  cdf47 <- count_species(r47)
-  if(nrow(cdf47) > 3){
-    shannon_index47<- diversity(cdf47[,-1], index = "shannon")
-  }else{
-    shannon_index47 <- c("N/A")
-  }
-  r47.5 <- a[a$decimalLatitude >= 47 & a$decimalLatitude < 47.5, ]
-  cdf47.5 <- count_species(r47.5)
-  if(nrow(cdf47.5) > 3){
-    shannon_index47.5<- diversity(cdf47.5[,-1], index = "shannon")
-  }else{
-    shannon_index47.5 <- c("N/A")
-  }
-  r48 <- a[a$decimalLatitude >= 47.5 & a$decimalLatitude < 48, ]
-  cdf48 <- count_species(r48)
-  if(nrow(cdf48) > 3){
-    shannon_index48<- diversity(cdf48[,-1], index = "shannon")
-  }else{
-    shannon_index48 <- c("N/A")
-  }
-  r48.5 <- a[a$decimalLatitude >= 48 & a$decimalLatitude < 48.5, ]
-  cdf48.5 <- count_species(r48.5)
-  if(nrow(cdf48.5) > 3){
-    shannon_index48.5<- diversity(cdf48.5[,-1], index = "shannon")
-  }else{
-    shannon_index48.5 <- c("N/A")
-  }
-  
-  r49 <- a[a$decimalLatitude >= 48.5 & a$decimalLatitude < 49, ]
-  cdf49 <- count_species(r49)
-  if(nrow(cdf49) > 3){
-    shannon_index49<- diversity(cdf49[,-1], index = "shannon")
-  }else{
-    shannon_index49 <- c("N/A")
-  }
-  r49.5 <- a[a$decimalLatitude >= 49 & a$decimalLatitude < 49.5, ]
-  cdf49.5 <- count_species(r49.5)
-  if(nrow(cdf49.5) > 3){
-    shannon_index49.5<- diversity(cdf49.5[,-1], index = "shannon")
-  }else{
-    shannon_index49.5 <- c("N/A")
-  }
-  r50 <- a[a$decimalLatitude >= 49.5 & a$decimalLatitude < 50, ]
-  cdf50 <- count_species(r50)
-  if(nrow(cdf50) > 3){
-    shannon_index50<- diversity(cdf50[,-1], index = "shannon")
-  }else{
-    shannon_index50 <- c("N/A")
-  }
-  shannon <- na.omit(rbind(shannon_index50, shannon_index49.5, shannon_index49, shannon_index48.5, shannon_index48, shannon_index47.5, shannon_index47, shannon_index46.5, shannon_index46, shannon_index45.5, shannon_index45, shannon_index44.5, shannon_index44, shannon_index43.5, shannon_index43, shannon_index42.5, shannon_index42, shannon_index41.5,  shannon_index41, shannon_index40.5, shannon_index40, shannon_index39.5, shannon_index39, shannon_index38.5, shannon_index38, shannon_index37.5, shannon_index37, shannon_index36.5,  shannon_index36, shannon_index35.5, shannon_index35, shannon_index34.5, shannon_index34, shannon_index33.5, shannon_index33, shannon_index32.5, shannon_index32, shannon_index31.5, shannon_index31, shannon_index30.5))
-  col_names <- colnames(shannon)
-  col_names[1] <- "Shannon_Diversity_Index"
-  colnames(shannon) <- col_names
-  shannon <- as.data.frame(shannon)
-  shannon <- mutate(data.frame(shannon), lat = c("50", "49.5", "49", "48.5", "48", "47.5", "47", "46.5", "46", "45.5", "45", "44.5", "44", "43.5", "43", "42.5", "42", "41.5",  "41", "40.5", "40", "39.5", "39", "38.5", "38", "37.5", "37", "36.5",  "36", "35.5", "35", "34.5", "34", "33.5", "33", "32.5", "32", "31.5", "31", "30.5"))    
-  return(print(shannon))
-}
+all2 <- read.csv("https://raw.githubusercontent.com/Andrewmikolinski/BIOL7800/main/Final%20Project/Shannon%20Only%20Data/all.csv")
 
 gen_m0 <- function(a){
   m0 = lm(Shannon ~ biome + lat + biome*lat, data = a)
@@ -428,362 +121,32 @@ FM <- function(x, y){
     mutate(r2, biome = rep(c(y)))
   return(as.data.frame(r3))
 }
-TN_EBFC_shannon <- gen_shannon(TN_EBFC)
-KY_EBFC_shannon <- gen_shannon(KY_EBFC)
-OH_EBFC_shannon <- gen_shannon(OH_EBFC)
-IN_EBFC1_shannon <- gen_shannon(IN_EBFC1)
-IN_EBFC2_shannon <- gen_shannon(IN_EBFC2)
-IL_EBFC1_shannon <- gen_shannon(IL_EBFC1)
-IL_EBFC2_shannon <- gen_shannon(IL_EBFC2)
-MO_EBFC_shannon <- gen_shannon(MO_EBFC)
-IA_EBFC_shannon <- gen_shannon(IA_EBFC)
-MN_EBFC_shannon <- gen_shannon(MN_EBFC)
-WI_EBFC_shannon <- gen_shannon(WI_EBFC)
-MI_EBFC_shannon <- gen_shannon(MI_EBFC)
-AR_EBFC_shannon <- gen_shannon(AR_EBFC)
 
-EBFC_shannon2 <- bind_rows(FM(TN_EBFC_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(KY_EBFC_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(OH_EBFC_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(IN_EBFC1_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(IN_EBFC2_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(IL_EBFC1_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(IL_EBFC2_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(MO_EBFC_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(IA_EBFC_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(MN_EBFC_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(WI_EBFC_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(MI_EBFC_shannon, "Eastern Broadleaf Forest (Continental)"),
-                           FM(AR_EBFC_shannon, "Eastern Broadleaf Forest (Continental)"))
-
-EBF_shannon2 <- bind_rows(FM(PA_EBF_shannon, "Eastern Broadleaf Forest"), FM(MA_EBF_shannon, "Eastern Broadleaf Forest"), FM(TN_EBF_shannon, "Eastern Broadleaf Forest"), FM(KY_EBF_shannon, "Eastern Broadleaf Forest"), FM(WV_EBF_shannon, "Eastern Broadleaf Forest"), FM(OH_EBF_shannon, "Eastern Broadleaf Forest"), FM(NH_EBF_shannon, "Eastern Broadleaf Forest"), FM(ME_EBF_shannon, "Eastern Broadleaf Forest"))
-MRF_shannon2 <- bind_rows(FM(LA_MRF_shannon, "Mississippi River Forest"), FM(MI_MRF_shannon, "Mississippi River Forest"), FM(AK_MRF_shannon, "Mississippi River Forest"), FM(MO_MRF_shannon, "Mississippi River Forest"), FM(TN_MRF_shannon,"Mississippi River Forest"), FM(KY_MRF_Shannon, "Mississippi River Forest"))
-MF_shannon2 <- bind_rows(FM(AL_MF_shannon, "Mixed Forest"), FM(AK_MF_shannon,  "Mixed Forest"), FM(LA_MF_shannon, "Mixed Forest"), FM(TX_MF_shannon,  "Mixed Forest"), FM(GA_MF_shannon,  "Mixed Forest"), FM(NC_MF_shannon, "Mixed Forest"), FM(VA_MF_shannon,  "Mixed Forest"), FM(SC_MF_shannon,  "Mixed Forest"), FM(MI_MF_shannon,  "Mixed Forest"))
-CMF_shannon2 <- bind_rows(FM(DA_CMF_shannon, "Coastal Mixed Forest"), FM(MD_CMF_shannon, "Coastal Mixed Forest"), FM(GA_CMF_shannon, "Coastal Mixed Forest"), FM(VA_CMF_shannon, "Coastal Mixed Forest"), FM(SC_CMF_shannon, "Coastal Mixed Forest"), FM(NC_CMF_shannon, "Coastal Mixed Forest"), FM(AL_CMF_shannon, "Coastal Mixed Forest"), FM(MI_CMF_shannon, "Coastal Mixed Forest"), FM(LA_CMF_shannon, "Coastal Mixed Forest"))
-SMF_shannon2 <- bind_rows(FM(OK_SMF_shannon, "Southeast Mixed Forest"), FM(AR_SMF_shannon, "Southeast Mixed Forest"))
-LMF_shannon2 <- bind_rows(FM(PA_LMF_shannon, "Laurentian_Mixed_Forest"), FM(NY_LMF_shannon, "Laurentian_Mixed_Forest"), FM(ME_LMF_shannon, "Laurentian_Mixed_Forest"), FM(MN_LMF_shannon, "Laurentian_Mixed_Forest"), FM(WI_LMF_shannon, "Laurentian_Mixed_Forest"), FM(MI_LMF_shannon, "Laurentian_Mixed_Forest"))
-
-EF = bind_rows(MRF_shannon2, MF_shannon2, CMF_shannon2, EBF_shannon2, LMF_shannon2, EBFC_shannon2)
 EF$biome <- factor(EF$biome)
 EF$lat <- as.numeric(EF$lat)
 
 ####Eastern Mountains
 
-A_shannon2 <- bind_rows(FM(NY_A_shannon, "Adirondack"), FM(NE_A_shannon, "Adirondack"))
-ABF_shannon2 <- bind_rows(FM(GA_ABF_shannon, "Appalachian Broadleaf Forest"), FM(TN_ABF_shannon, "Appalachian Broadleaf Forest"), FM(NC_ABF_shannon, "Appalachian Broadleaf Forest"), FM(VA_ABF_shannon, "Appalachian Broadleaf Forest"), FM(WV_ABF_shannon, "Appalachian Broadleaf Forest"), FM(MD_ABF_shannon, "Appalachian Broadleaf Forest"), FM(PA_ABF_shannon, "Appalachian Broadleaf Forest"),
-                          FM(SC_ABF_shannon, "Appalachian Broadleaf Forest"))
-EM = bind_rows(A_shannon2, ABF_shannon2)
 EM$biome <- factor(EM$biome)
 EM$lat <- as.numeric(EM$lat)
 
-#### TPP
+#### Grasslands
 
-MN_TPP_shannon <- gen_shannon(MN_TPP)
-IA_TPP_shannon <- gen_shannon(IA_TPP)
-MO_TPP_shannon <- gen_shannon(MO_TPP)
-IL_TPP_shannon <- gen_shannon(IL_TPP)
-NE_TPP_shannon <- gen_shannon(NE_TPP)
-KS_TPP_shannon <- gen_shannon(KS_TPP)
-OK_TPP_shannon <- gen_shannon(OK_TPP)
-
-TPP_shannon2 <- bind_rows(FM(MN_TPP_shannon, "Temperate Prairie Parkland"), FM(IA_TPP_shannon, "Temperate Prairie Parkland"),FM(MO_TPP_shannon, "Temperate Prairie Parkland"), FM(IL_TPP_shannon, "Temperate Prairie Parkland"), FM(NE_TPP_shannon, "Temperate Prairie Parkland"), FM(KS_TPP_shannon, "Temperate Prairie Parkland"), FM(OK_TPP_shannon, "Temperate Prairie Parkland"))
-
-#### GPS 
-ND_GPS_shannon <- gen_shannon(ND_GPS)
-SD_GPS_shannon <- gen_shannon(SD_GPS)
-NE_GPS_shannon <- gen_shannon(NE_GPS)
-KS_GPS_shannon <- gen_shannon(KS_GPS)
-OK_GPS_shannon <- gen_shannon(OK_GPS)
-CO_GPS_shannon <- gen_shannon(CO_GPS)
-WY_GPS_shannon <- gen_shannon(WY_GPS)
-MT_GPS_shannon <- gen_shannon(MT_GPS)
-
-GPS_shannon2 <- bind_rows(FM(ND_GPS_shannon, "Great Plains Steppe"), 
-                          FM(SD_GPS_shannon, "Great Plains Steppe"),
-                          FM(NE_GPS_shannon, "Great Plains Steppe"),
-                          FM(KS_GPS_shannon, "Great Plains Steppe"),
-                          FM(OK_GPS_shannon, "Great Plains Steppe"),
-                          FM(CO_GPS_shannon, "Great Plains Steppe"),
-                          FM(WY_GPS_shannon, "Great Plains Steppe"),
-                          FM(MT_GPS_shannon, "Great Plains Steppe"))
-#### GPPS
-WA_GPPS_shannon <- gen_shannon(WA_GPPS)
-OR_GPPS_shannon <- gen_shannon(OR_GPPS)
-NV_GPPS_shannon <- gen_shannon(NV_GPPS)
-ID_GPPS_shannon <- gen_shannon(ID_GPPS)
-WY_GPPS_shannon <- gen_shannon(WY_GPPS8)
-
-GPPS_shannon2 <- bind_rows(FM(WA_GPPS_shannon, "Great Plains Palousse Dry Steppe"),
-                           FM(OR_GPPS_shannon, "Great Plains Palousse Dry Steppe"),
-                           FM(NV_GPPS_shannon, "Great Plains Palousse Dry Steppe"),
-                           FM(ID_GPPS_shannon, "Great Plains Palousse Dry Steppe"),
-                           FM(WY_GPPS_shannon, "Great Plains Palousse Dry Steppe"))
-                           
-
-#### SPP
-TX_SPP_shannon <- gen_shannon(TX_SPP)
-OK_SPP_shannon <- gen_shannon(OK_SPP)
-
-SPP_shannon2 <- bind_rows(FM(OK_SPP_shannon, "Subtropical Prairie Parkland"), FM(TX_SPP_shannon, "Subtropical Prairie Parkland"))
-
-G <- bind_rows(SPP_shannon2, GPPS_shannon2, GPS_shannon2, TPP_shannon2)
 G$biome <- factor(G$biome)
 G$lat <- as.numeric(G$lat)
 
 ### Desert
 
-CA_ASD_shannon <- gen_shannon(CA_ASD)
-NV_ASD_shannon <- gen_shannon(NV_ASD)
-AZ_ASD_shannon <- gen_shannon(AZ_ASD)
-
-ASD_shannon2 <- bind_rows(FM(CA_ASD_shannon, "American Semi-Desert"), FM(NV_ASD_shannon, "American Semi-Desert"), FM(AZ_ASD_shannon, "American Semi-Desert"))
-
-AZ_ADM_shannon <- gen_shannon(AZ_ADM)
-NM_ADM_shannon <- gen_shannon(NM_ADM)
-
-ADM_shannon2 <- bind_rows(FM(AZ_ADM_shannon, "Arizona-New Mexico Mountains Semi-Desert"), FM(NM_ADM_shannon, "Arizona-New Mexico Mountains Semi-Desert"))
-
-AZ_CPAD_shannon <- gen_shannon(AZ_CPAD)
-NM_CPAD_shannon <- gen_shannon(NM_CPAD7)
-UT_CPAD_shannon <- gen_shannon(UT_CPAD)
-CO_CPAD_shannon <- gen_shannon(CO_CPAD)
-
-CPAD_shannon2 <- bind_rows(FM(AZ_CPAD_shannon, "Colorado Plateau Semi-Arid Desert"),FM(NM_CPAD_shannon, "Colorado Plateau Semi-Arid Desert"),FM(UT_CPAD_shannon, "Colorado Plateau Semi-Arid Desert"),FM(CO_CPAD_shannon, "Colorado Plateau Semi-Arid Desert"))
-
-AZ_CSD_shannon <- gen_shannon(AZ_CSD)
-NM_CSD_shannon <- gen_shannon(NM_CSD)
-TX_CSD_shannon <- gen_shannon(TX_CSD)
-
-CSD_shannon2 <- bind_rows(FM(AZ_CSD_shannon, "Chihuahuan Semi-Desert"), FM(NM_CSD_shannon, "Chihuahuan Semi-Desert"), FM(TX_CSD_shannon, "Chihuahuan Semi-Desert"))
-
-NM_SP_shannon <- gen_shannon(NM_SP)
-TX_SP_shannon <- gen_shannon(TX_SP)
-
-SP_shannon2 <- bind_rows(FM(NM_SP_shannon, "Southwest Plateau"),FM(TX_SP_shannon, "Southwest Plateau"))
-
-NV_ISD_shannon <- gen_shannon(NV_ISD)
-UT_ISD_shannon <- gen_shannon(UT_ISD)
-CO_ISD_shannon <- gen_shannon(CO_ISD)
-
-ISD_shannon2 <- bind_rows(FM(NV_ISD_shannon, "Inter-Mountain Semi-Desert"), FM(UT_ISD_shannon, "Inter-Mountain Semi-Desert"), FM(CO_ISD_shannon, "Inter-Mountain Semi-Desert"))
-
-
-D <- bind_rows(ISD_shannon2, SP_shannon2, CSD_shannon2, CPAD_shannon2, ADM_shannon2, ASD_shannon2, ISD_shannon2)
 D$lat <- as.numeric(D$lat)
 
 #### Western Forests
-
-WA_PLMF_shannon <- gen_shannon(WA_PLMF)
-
-OR_PLMF2_shannon <- gen_shannon(OR_PLMF2)
-OR_PLMF4_shannon <- gen_shannon(OR_PLMF4)
-OR_PLMF6_shannon <- gen_shannon(OR_PLMF6)
-OR_PLMF10_shannon <- gen_shannon(OR_PLMF8)
-
-OR_CCCF_shannon <- gen_shannon(OR_CCCF)
-CA_CCCF_shannon <- gen_shannon(CA_CCCF)
-
-CA_CCROW13_shannon <- gen_shannon(CA_CCROW13)
-CA_CCROW3_shannon <- gen_shannon(CA_CCROW3)
-
-WF <- bind_rows(FM(OR_CCCF_shannon, "California Coastal Chapparel Forest"),
-                   FM(CA_CCCF_shannon, "California Coastal Chapparel Forest"),
-                   FM(CA_CCROW13_shannon, "California Coastal Range Open Woodland"),
-                   FM(CA_CCROW3_shannon, "California Coastal Range Open Woodland"))
-                         
 
 WF$lat <- as.numeric(WF$lat)
 
 
 #### Western Mountains
-OR_CMF_shannon <- gen_shannon(OR_CMF)
-WA_CMF_shannon <- gen_shannon(WA_CMF)
-MT_NRMFS1_shannon <- gen_shannon(MT_NRMFS1)
-MT_NRMFS2_shannon <- gen_shannon(MT_NRMFS2)
-ID_NRMFS3_shannon <- gen_shannon(ID_NRMFS3)
-ID_NRMFS4_shannon <- gen_shannon(ID_NRMFS4)
-WA_NRMFS1_shannon <- gen_shannon(WA_NRMFS1)
-WA_NRMFS2_shannon <- gen_shannon(WA_NRMFS2)
-WA_NRMFS3_shannon <- gen_shannon(WA_NRMFS3)
-
-WA_MRMS_shannon <- gen_shannon(WA_MRMS)
-OR_MRMS4_shannon <- gen_shannon(OR_MRMS4)
-OR_MRMS6_shannon <- gen_shannon(OR_MRMS6)
-MT_MRMS_shannon <- gen_shannon(MT_MRMS)
-ID_MRMS_shannon <- gen_shannon(ID_MRMS)
-
-NV_NVUTM_shannon <- gen_shannon(NV_NVUTM)
-UT_NVUTM6_shannon <- gen_shannon(UT_NVUTM6)
-UT_NVUTM3_shannon <- gen_shannon(UT_NVUTM3)
-CO_NVUTM_shannon <- gen_shannon(CO_NVUTM)
-
-WY_SRMSOW1_shannon <- gen_shannon(WY_SRMSOW1)
-WY_SRMSOW2_shannon <- gen_shannon(WY_SRMSOW2)
-WY_SRMSOW4_shannon <- gen_shannon(WY_SRMSOW4)
-CO_SRMSOW_shannon <- gen_shannon(CO_SRMSOW)
-NM_SRMSOW8_shannon <- gen_shannon(NM_SRMSOW8)
-NM_SRMSOW4_shannon <- gen_shannon(NM_SRMSOW4)
-UT_SRMSOW_shannon <- gen_shannon(UT_SRMSOW)
-ID_SRMSOW1_shannon <- gen_shannon(ID_SRMSOW1)
-
-
-WM <- bind_rows(FM(OR_CMF_shannon, "Cascade Mixed Forest"),
-                FM(WA_CMF_shannon, "Cascade Mixed Forest"),
-                FM(MT_NRMFS1_shannon, "Northern Rocky Mountains Forest Steppe"),
-                FM(MT_NRMFS2_shannon, "Northern Rocky Mountains Forest Steppe"),
-                FM(ID_NRMFS3_shannon, "Northern Rocky Mountains Forest Steppe"),
-                FM(ID_NRMFS4_shannon, "Northern Rocky Mountains Forest Steppe"),
-                FM(WA_NRMFS1_shannon, "Northern Rocky Mountains Forest Steppe"),
-                FM(WA_NRMFS2_shannon, "Northern Rocky Mountains Forest Steppe"),
-                FM(WA_NRMFS3_shannon, "Northern Rocky Mountains Forest Steppe"),
-                FM(WA_MRMS_shannon, "Middle Rocky Mountain Steppe"),
-                FM(OR_MRMS4_shannon, "Middle Rocky Mountain Steppe"),
-                FM(OR_MRMS6_shannon, "Middle Rocky Mountain Steppe"),
-                FM(MT_MRMS_shannon, "Middle Rocky Mountain Steppe"),
-                FM(ID_MRMS_shannon, "Middle Rocky Mountain Steppe"),
-                FM(NV_NVUTM_shannon, "Nevada-Utah Mountains"),
-                FM(UT_NVUTM6_shannon, "Nevada-Utah Mountains"),
-                FM(UT_NVUTM3_shannon, "Nevada-Utah Mountains"),
-                FM(CO_NVUTM_shannon, "Nevada-Utah Mountains"),
-                FM(WY_SRMSOW1_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                FM(WY_SRMSOW2_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                FM(WY_SRMSOW4_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                FM(CO_SRMSOW_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                FM(NM_SRMSOW8_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                FM(NM_SRMSOW4_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                FM(UT_SRMSOW_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                FM(ID_SRMSOW1_shannon, "Southern Rocky Mountain Steppe-Open Woodland"))
 
 WM$lat <- as.numeric(WM$lat)
-
-
-WM$lat <- as.numeric(WM$lat)
-
-all2 <- bind_rows(FM(OR_CCCF_shannon, "California Coastal Chapparel Forest"),
-                  FM(CA_CCCF_shannon, "California Coastal Chapparel Forest"),
-                  FM(CA_CCROW13_shannon, "California Coastal Range Open Woodland"),
-                  FM(CA_CCROW3_shannon, "California Coastal Range Open Woodland"),
-                  FM(OR_CMF_shannon, "Cascade Mixed Forest"),
-                  FM(WA_CMF_shannon, "Cascade Mixed Forest"),
-                  FM(MT_NRMFS1_shannon, "Northern Rocky Mountains Forest Steppe"),
-                  FM(MT_NRMFS2_shannon, "Northern Rocky Mountains Forest Steppe"),
-                  FM(ID_NRMFS3_shannon, "Northern Rocky Mountains Forest Steppe"),
-                  FM(ID_NRMFS4_shannon, "Northern Rocky Mountains Forest Steppe"),
-                  FM(WA_NRMFS1_shannon, "Northern Rocky Mountains Forest Steppe"),
-                  FM(WA_NRMFS2_shannon, "Northern Rocky Mountains Forest Steppe"),
-                  FM(WA_NRMFS3_shannon, "Northern Rocky Mountains Forest Steppe"),
-                  FM(WA_MRMS_shannon, "Middle Rocky Mountain Steppe"),
-                  FM(OR_MRMS4_shannon, "Middle Rocky Mountain Steppe"),
-                  FM(OR_MRMS6_shannon, "Middle Rocky Mountain Steppe"),
-                  FM(MT_MRMS_shannon, "Middle Rocky Mountain Steppe"),
-                  FM(ID_MRMS_shannon, "Middle Rocky Mountain Steppe"),
-                  FM(NV_NVUTM_shannon, "Nevada-Utah Mountains"),
-                  FM(UT_NVUTM6_shannon, "Nevada-Utah Mountains"),
-                  FM(UT_NVUTM3_shannon, "Nevada-Utah Mountains"),
-                  FM(CO_NVUTM_shannon, "Nevada-Utah Mountains"), 
-                  FM(NM_SP_shannon, "Southwest Plateau"),
-                  FM(TX_SP_shannon, "Southwest Plateau"), 
-                  FM(AZ_CSD_shannon, "Chihuahuan Semi-Desert"), 
-                  FM(NM_CSD_shannon, "Chihuahuan Semi-Desert"), 
-                  FM(TX_CSD_shannon, "Chihuahuan Semi-Desert"), 
-                  FM(AZ_CPAD_shannon, "Colorado Plateau Semi-Arid Desert"),
-                  FM(NM_CPAD_shannon, "Colorado Plateau Semi-Arid Desert"),
-                  FM(UT_CPAD_shannon, "Colorado Plateau Semi-Arid Desert"),
-                  FM(CO_CPAD_shannon, "Colorado Plateau Semi-Arid Desert"), 
-                  FM(AZ_ADM_shannon, "Arizona-New Mexico Mountains Semi-Desert"), 
-                  FM(NM_ADM_shannon, "Arizona-New Mexico Mountains Semi-Desert"), 
-                  FM(CA_ASD_shannon, "American Semi-Desert"), 
-                  FM(NV_ASD_shannon, "American Semi-Desert"), 
-                  FM(AZ_ASD_shannon, "American Semi-Desert"),
-                  FM(ND_GPS_shannon, "Great Plains Steppe"), 
-                  FM(SD_GPS_shannon, "Great Plains Steppe"),
-                  FM(NE_GPS_shannon, "Great Plains Steppe"),
-                  FM(KS_GPS_shannon, "Great Plains Steppe"),
-                  FM(OK_GPS_shannon, "Great Plains Steppe"),
-                  FM(CO_GPS_shannon, "Great Plains Steppe"),
-                  FM(WY_GPS_shannon, "Great Plains Steppe"),
-                  FM(MT_GPS_shannon, "Great Plains Steppe"),
-                  FM(WA_GPPS_shannon, "Great Plains Palousse Dry Steppe"),
-                  FM(OR_GPPS_shannon, "Great Plains Palousse Dry Steppe"),
-                  FM(NV_GPPS_shannon, "Great Plains Palousse Dry Steppe"),
-                  FM(ID_GPPS_shannon, "Great Plains Palousse Dry Steppe"),
-                  FM(WY_GPPS_shannon, "Great Plains Palousse Dry Steppe"),
-                  FM(OK_SPP_shannon, "Subtropical Prairie Parkland"), 
-                  FM(TX_SPP_shannon, "Subtropical Prairie Parkland"),
-                  FM(MN_TPP_shannon, "Temperate Prairie Parkland"), 
-                  FM(IA_TPP_shannon, "Temperate Prairie Parkland"),
-                  FM(MO_TPP_shannon, "Temperate Prairie Parkland"), 
-                  FM(IL_TPP_shannon, "Temperate Prairie Parkland"), 
-                  FM(NE_TPP_shannon, "Temperate Prairie Parkland"), 
-                  FM(KS_TPP_shannon, "Temperate Prairie Parkland"), 
-                  FM(OK_TPP_shannon, "Temperate Prairie Parkland"),
-                  FM(PA_LMF_shannon, "Laurentian_Mixed_Forest"), 
-                  FM(NY_LMF_shannon, "Laurentian_Mixed_Forest"), 
-                  FM(ME_LMF_shannon, "Laurentian_Mixed_Forest"), 
-                  FM(MN_LMF_shannon, "Laurentian_Mixed_Forest"), 
-                  FM(WI_LMF_shannon, "Laurentian_Mixed_Forest"), 
-                  FM(MI_LMF_shannon, "Laurentian_Mixed_Forest"),
-                  FM(GA_ABF_shannon, "Appalachian Broadleaf Forest"), 
-                  FM(TN_ABF_shannon, "Appalachian Broadleaf Forest"), 
-                  FM(NC_ABF_shannon, "Appalachian Broadleaf Forest"), 
-                  FM(VA_ABF_shannon, "Appalachian Broadleaf Forest"), 
-                  FM(WV_ABF_shannon, "Appalachian Broadleaf Forest"), 
-                  FM(MD_ABF_shannon, "Appalachian Broadleaf Forest"), 
-                  FM(PA_ABF_shannon, "Appalachian Broadleaf Forest"),
-                  FM(NY_A_shannon, "Adirondack"), 
-                  FM(NE_A_shannon, "Adirondack"),
-                  FM(PA_EBF_shannon, "Eastern Broadleaf Forest"), 
-                  FM(MA_EBF_shannon, "Eastern Broadleaf Forest"), 
-                  FM(TN_EBF_shannon, "Eastern Broadleaf Forest"), 
-                  FM(KY_EBF_shannon, "Eastern Broadleaf Forest"), 
-                  FM(WV_EBF_shannon, "Eastern Broadleaf Forest"), 
-                  FM(OH_EBF_shannon, "Eastern Broadleaf Forest"), 
-                  FM(NH_EBF_shannon, "Eastern Broadleaf Forest"), 
-                  FM(ME_EBF_shannon, "Eastern Broadleaf Forest"),
-                  FM(LA_MRF_shannon, "Mississippi River Forest"), 
-                  FM(MI_MRF_shannon, "Mississippi River Forest"), 
-                  FM(AK_MRF_shannon, "Mississippi River Forest"), 
-                  FM(MO_MRF_shannon, "Mississippi River Forest"), 
-                  FM(TN_MRF_shannon,"Mississippi River Forest"), 
-                  FM(KY_MRF_Shannon, "Mississippi River Forest"),
-                  FM(AL_MF_shannon, "Mixed Forest"), 
-                  FM(AK_MF_shannon,  "Mixed Forest"), 
-                  FM(LA_MF_shannon, "Mixed Forest"), 
-                  FM(TX_MF_shannon,  "Mixed Forest"), 
-                  FM(GA_MF_shannon,  "Mixed Forest"), 
-                  FM(NC_MF_shannon, "Mixed Forest"), 
-                  FM(VA_MF_shannon,  "Mixed Forest"), 
-                  FM(SC_MF_shannon,  "Mixed Forest"), 
-                  FM(MI_MF_shannon,  "Mixed Forest"),
-                  FM(DA_CMF_shannon, "Coastal Mixed Forest"), 
-                  FM(MD_CMF_shannon, "Coastal Mixed Forest"), 
-                  FM(GA_CMF_shannon, "Coastal Mixed Forest"), 
-                  FM(VA_CMF_shannon, "Coastal Mixed Forest"), 
-                  FM(SC_CMF_shannon, "Coastal Mixed Forest"), 
-                  FM(NC_CMF_shannon, "Coastal Mixed Forest"), 
-                  FM(AL_CMF_shannon, "Coastal Mixed Forest"), 
-                  FM(MI_CMF_shannon, "Coastal Mixed Forest"), 
-                  FM(LA_CMF_shannon, "Coastal Mixed Forest"),
-                  FM(NV_ISD_shannon, "Inter-Mountain Semi-Desert"), 
-                  FM(UT_ISD_shannon, "Inter-Mountain Semi-Desert"), 
-                  FM(CO_ISD_shannon, "Inter-Mountain Semi-Desert"),
-                  FM(EBFC_shannon, "Eastern Broadleaf Forest (Continental)"),
-                  FM(WY_SRMSOW1_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                  FM(WY_SRMSOW2_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                  FM(WY_SRMSOW4_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                  FM(CO_SRMSOW_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                  FM(NM_SRMSOW8_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                  FM(NM_SRMSOW4_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                  FM(UT_SRMSOW_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                  FM(ID_SRMSOW1_shannon, "Southern Rocky Mountain Steppe-Open Woodland"),
-                  FM(AR_SMF_shannon, "Southeastern Mixed Forest"),
-                  FM(OK_SMF_shannon, "Southeastern Mixed Forest"))
-plotWM <- ggplot(WM, aes(x= lat, y = Shannon, color = biome)) +
-  geom_point() +
-  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
-  xlab("Latitude") + 
-  ylab("Shannon Diversity Index") +
-  ggtitle("The Impact of Latitude on the Shannon Diversity Index Values of 5 Western Mountain Biomes")
 
 plotWF <- ggplot(WF, aes(x= lat, y = Shannon, color = biome)) +
   geom_point() +
@@ -791,34 +154,6 @@ plotWF <- ggplot(WF, aes(x= lat, y = Shannon, color = biome)) +
   xlab("Latitude") + 
   ylab("Shannon Diversity Index") +
   ggtitle("The Impact of Latitude on the Shannon Diversity Index Values of 3 Western Forest Biomes")
-
-plotD <- ggplot(D, aes(x= lat, y = Shannon, color = biome)) +
-  geom_point() +
-  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
-  xlab("Latitude") + 
-  ylab("Shannon Diversity Index") +
-  ggtitle("The Impact of Latitude on the Shannon Diversity Index Values of 7 Desert Biomes")
-
-plotEM <- ggplot(EM, aes(x= lat, y = Shannon, color = biome)) +
-  geom_point() +
-  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
-  xlab("Latitude") + 
-  ylab("Shannon Diversity Index") +
-  ggtitle("The Impact of Latitude on the Shannon Diversity Index Values of 2 Eastern Mountain Biomes")
-
-plotEF <- ggplot(EF, aes(x= lat, y = Shannon, color = biome)) +
-  geom_point() +
-  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
-  xlab("Latitude") + 
-  ylab("Shannon Diversity Index") +
-  ggtitle("The Impact of Latitude on the Shannon Diversity Index Values of 6 Eastern Forest Biomes")
-
-plotG <- ggplot(G, aes(x= lat, y = Shannon, color = biome)) +
-  geom_point() +
-  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
-  xlab("Latitude") + 
-  ylab("Shannon Diversity Index") +
-  ggtitle("The Impact of Latitude on the Shannon Diversity Index Values of 4 Grassland Biomes")
 
 
 ```
@@ -831,121 +166,159 @@ all2$lat <- as.numeric(all2$lat)
 modelall <- gen_m0(all2)
 model1 <- aov(Shannon~lat+biome+lat*biome, data = all2)
 Residuals_all <- residuals(model1)
-qqnorm(Residuals_all, main="QQ Plot All")
+qqnorm(Residuals_all, main="QQ Plot for all residuals")
 qqline(Residuals_all, col = 2) 
 model <- aov(Shannon ~ lat+biome+lat*biome, data = all2)
 
 ```
+
 ```{r}
-ANOVA_all <- anova(model1)
-ANOVA_all
+Table1 <- anova(model1)
+Table1
 ```
 
-## As shown in the ANOVA table above, the p-value generated for latitude overall is highly significant (p = 0.000), and the calculated value for β1 was -3.256359 (Table 8). This suggests that latitude does have a significant negative impact on β1 overall. The null hypothesis can therefore be rejected based on the overall data. It is interesting to note, however, that while the impacts of both latitude and biome are significant, the interaction term between latitude and biome is significant (p <0.05).
-##    To detect whether an interaction between biome and latitude is significant on a smaller scale, an Analysis of Variance was performed on the transformed data for each biome type. Each analysis produced differing results.  As shown in Table 3 below, the Grassland category provides some of the strongest evidence for decreasing species richness on a latitudinal gradient. 3 out of the four biomes below show a distinct decrease in Shannon diversity index values with increasing latitude. Table 3 shows that the ANOVA produced a highly significant p-value for the impact of latitude on species richness, and a significant p value for the impact of biome on species richness, but there was no significant interaction between latitude and biome found. Figure 2 below shows that three out of the four biomes included in this study, Shannon diversity index values decrease with increasing latitude except for in the case of the Great Plains Palouse Dry Steppe which shows a trend of increasing Shannon diversity index values with increasing latitude. A significant interaction between latitude and biome type was not found.
+## As shown in the ANOVA table above, the p-value generated for latitude overall is highly significant (p = 0.000), and the calculated value for $\beta$~1~ was -2.800246 (Table 7). This suggests that latitude does have a significant negative impact on $\beta$~1~ overall. The null hypothesis can therefore be rejected based on the overall data. It is interesting to note, however, that while the impacts of both latitude and biome are significant, the interaction term between latitude and biome is significant (p <0.05).
+
+## In order to determine whether the interaction between biome and latitude is consistent across broader biome types, I grouped each of the biomes used in this study into 6 broader biomes.To detect whether an interaction between biome and latitude is significant on a smaller scale, an Analysis of Variance was performed on the transformed data for each biome type. Each analysis produced differing results. As shown in Table 3 below, the Grassland category provides some of the strongest evidence for decreasing species richness on a latitudinal gradient. 3 out of the four biomes below show a distinct decrease in Shannon diversity index values with increasing latitude. Table 3 shows that the ANOVA produced a highly significant p-value for the impact of latitude on species richness, and a significant p value for the impact of biome on species richness, but there was no significant interaction between latitude and biome found. Figure 2 below shows that three out of the four biomes included in this study, Shannon diversity index values decrease with increasing latitude except for in the case of the Great Plains Palouse Dry Steppe which shows a trend of increasing Shannon diversity index values with increasing latitude. A significant impact of the interaction between latitude and biome was not found for this biome.
 
 ```{r cars}
 SLmodelG<-gen_m0(G)
 modelG <- aov(Shannon~lat+biome+lat*biome, data = G)
-ANOVA_G<-anova(modelG)
-ANOVA_G
+Table2<-anova(modelG)
+plotG <- ggplot(G, aes(x= lat, y = Shannon, color = biome)) +
+  geom_point() +
+  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
+  xlab("Latitude") + 
+  ylab("Shannon Diversity Index") +
+  ggtitle("Latitude vs Shannon Diversity Index Values for 4 Grassland Biomes")
 plotG
+Table2
 ```
 
-##    With regards to the western mountains biome type, figure 3 shows the relationships between the datapoints collected for each of the six biomes which were considered to fall into this biome type. Figure 2 shows that there is no real trend between these biome types with regards to the direction of the impact that increasing latitude has on Shannon diversity index values. Cascade Mixed Forest, Middle Rocky Mountain Steppe, and Northern Rocky Mountain Forest Steppes all show that Shannon diversity index values increase with increasing latitude, the opposite trend of what is expected. Table 4 shows the p-value generated for the regression of latitude and Shannon diversity index is marginally significant (p<0.1) but it is not nearly as significant as that of the four grassland biome types. The value of β1 for this biome type is 3.350643 (Table 8). Alongside the p-value, this indicates the presence of a marginally significant positive impact of latitude on Shannon diversity index values.
+## With regards to the western mountains biome type, figure 3 shows the relationships between the datapoints collected for each of the six biomes which were considered to fall into this biome type. Figure 2 shows that there is no real trend between these biome types with regards to the direction of the impact that increasing latitude has on Shannon diversity index values. Cascade Mixed Forest, Middle Rocky Mountain Steppe, and Northern Rocky Mountain Forest Steppes all show that Shannon diversity index values increase with increasing latitude, the opposite trend of what is expected. Table 3 shows the p-value generated for the regression of latitude and Shannon diversity index is marginally significant (p\<0.1) but it is not nearly as significant as that of the four grassland biome types. The value of $\beta$~1~ for this biome type is 3.350643 (Table 7). Alongside the p-value, this indicates the presence of a marginally significant positive impact of latitude on Shannon diversity index values.
+
 ```{r}
 SLmodelWM <- gen_m0(WM)
 modelWM <- aov(Shannon~lat+biome+lat*biome, data = WM)
-ANOVA_WM<-anova(modelWM)
-ANOVA_WM
+Table3<-anova(modelWM)
+
+
+plotWM <- ggplot(WM, aes(x= lat, y = Shannon, color = biome)) +
+  geom_point() +
+  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
+  xlab("Latitude") + 
+  ylab("Shannon Diversity Index") +
+  ggtitle("Latitude vs Shannon Diversity Index Values for 5 Western Mountain Biomes")
 plotWM
+Table3
 ```
 
-## Figure 4 shows the plot of the six eastern forest biomes that were included in this study. There is great variation in the datapoints around the mean relative to those of the other biome types included in the study but there is also more data for these four biomes. Interestingly, the eastern forest biomes showed only marginal significance in the interaction between biomes and Shannon indices (p<0.1). There are two eastern forest biomes that show a positive relationship between Shannon diversity index, the mixed forest and eastern broadleaf forest biomes. The overall relationship between latitude and Shannon diversity indices is negative for four of these biomes, the scatterplot shows that there is significant spread in the data, such that some localities in at the lower latitudes have a very low Shannon diversity index score, which likely contributes significantly to the low p value for the interaction between Shannon diversity index and latitude for this subset of the data (Table 5).
+
+## Figure 4 below shows the plot of the six eastern forest biomes that were included in this study. There is great variation in the datapoints around the mean relative to those of the other biome types included in the study but there is also more data for these four biomes. Interestingly, the eastern forest biomes showed only marginal significance in the interaction between biomes and Shannon indices (p\<0.1). There are two eastern forest biomes that show a positive relationship between Shannon diversity index, the mixed forest and eastern broadleaf forest biomes. The overall relationship between latitude and Shannon diversity indices is negative for four of these biomes, the scatterplot shows that there is significant spread in the data, such that some localities in at the lower latitudes have a very low Shannon diversity index score, which likely contributes significantly to the low p value for the interaction between Shannon diversity index and latitude for this subset of the data (Table 4).
 
 ```{r}
 SLmodelEF<- gen_m0(EF)
 modelEF <- aov(Shannon~lat+biome+lat*biome, data = EF)
-ANOVA_EF<-anova(modelEF)
-ANOVA_EF
+Table4<-anova(modelEF)
+plotEF <- ggplot(EF, aes(x= lat, y = Shannon, color = biome)) +
+  geom_point() +
+  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
+  xlab("Latitude") + 
+  ylab("Shannon Diversity Index") +
+  ggtitle("Latitude vs Shannon Diversity Index Values for 6 Eastern Forest Biomes")
 plotEF
+Table4
 ```
 
-##    There were only two broad biome types that showed a significant impact of the interaction between latitude and biome, the eastern mountain biome type, and the desert biome type. Figure 5 below shows the linear relationships between latitude and Shannon diversity indices across 2 eastern mountain biomes. The impact of the interaction term between latitude and biome is significant for this biome type (Table 6). There is a trend across the biomes in the two mountainous biome types where the relationship between latitude and shannon diversity index values is in general more likely to be positive than in any other biome type. 
+## There were only two broad biome types that showed a significant impact of the interaction between latitude and biome, the eastern mountain biome type, and the desert biome type. Figure 5 below shows the linear relationships between latitude and Shannon diversity indices across 2 eastern mountain biomes. The impact of the interaction term between latitude and biome is significant for this biome type (Table 5). There is a trend across the biomes in the two mountainous biome types where the relationship between latitude and shannon diversity index values is in general more likely to be positive than in any other biome type.
 
 ```{r}
 SLmodelEM<-gen_m0(EM)
 modelEM <- aov(Shannon~lat+biome+lat*biome, data = EM)
-ANOVA_EM<-anova(modelEM)
-ANOVA_EM
+Table5<-anova(modelEM)
+plotEM <- ggplot(EM, aes(x= lat, y = Shannon, color = biome)) +
+  geom_point() +
+  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
+  xlab("Latitude") + 
+  ylab("Shannon Diversity Index") +
+  ggtitle("Latitude vs Shannon Diversity Index Values for 2 Eastern Mountain Biomes")
 plotEM
+Table5
 ```
 
-##    The desert biomes provide evidence for the interaction between latitude and biome, although the evidence for the interaction is only marginally significant. As you can see by looking at Table 7 below, there is marginally significant evidence that latitude has an impact on species richness across those seven biomes (p<0.1), and marginally significant evidence for the interaction between latitude and biome(p<0.1). The value of β1 for the impact of latitude on Shannon diversity index in the desert biomes was determined to be -3.484803, indicating that the trend seen for this biome is both marginally significant and negative. 
-
+## The desert biomes provide evidence for the interaction between latitude and biome, although the evidence for the interaction is only marginally significant. As you can see by looking at Table 6 below, there is marginally significant evidence that latitude has an impact on species richness across those seven biomes (p\<0.1), and marginally significant evidence for the interaction between latitude and biome(p\<0.1). The value of $\beta$~1~ for the impact of latitude on Shannon diversity index in the desert biomes was determined to be -3.484803, indicating that the trend seen for this biome is both marginally significant and negative.
 
 ```{r}
 SLmodelD <- gen_m0(D)
 modelD <- aov(Shannon~lat+biome+lat*biome, data = D)
-ANOVA_D<-anova(modelD)
-ANOVA_D
+Table6<-anova(modelD)
+plotD <- ggplot(D, aes(x= lat, y = Shannon, color = biome)) +
+  geom_point() +
+  geom_smooth(method = "lm", se=FALSE, aes(group=biome)) +
+  xlab("Latitude") + 
+  ylab("Shannon Diversity Index") +
+  ggtitle("Latitude vs Shannon Diversity Index Values for 7 Desert Biomes")
 plotD
+Table6
 ```
-
 
 ```{r pressure, echo=FALSE}
 modelWMLat <- gen_m1(WM)
-coef(modelWMLat)[2]
 modelallLat <- gen_m1(all2)
-coef(modelallLat)[2]
 modelGLat <- gen_m1(G)
-coef(modelGLat)[2]
 modelEFLat <- gen_m1(EF)
-coef(modelEFLat)[2]
 modelEMLat <- gen_m1(EM)
-coef(modelEMLat)[2]
 modelDLat <- gen_m1(D)
-coef(modelDLat)[2]
+Table8<- data.frame("All Biomes" = c(coef(modelallLat)[2]), "Grasslands" = c(coef(modelGLat)[2]), "Eastern Forest" = c(coef(modelEFLat)[2]), "Eastern Mountains" = c(coef(modelEMLat)[2]),  "Western Mountains" = c(coef(modelWMLat)[2]), "Desert" = c(coef(modelDLat)[2]))
+Table7<- t(Table8)
+colnames(Table7) <- c("Beta1_Latitude")
+Table7
 ```
+
 # Discussion
-##   The prediction that an increase in latitude would correspond to a decrease in Shannon diversity index values was supported by the data. As was shown in Table 2, the p value for the linear relationship between latitude and Shannon diversity index is highly significant (p<0.01). Interestingly, not all of the biomes included in this study showed this type of relationship. Out of the 24 biomes included in this study, 9 of them showed a positive relationship between latitude and Shannon diversity indices, showing that the relationship between latitude and biodiversity may not more complicated than simple changes in biomes and changes in latitude. That being said, the data shows that differences between biomes (i.e. environmental conditions) can account for some of the variability seen in the data. There are many conditions or sets of conditions that are unique to different biome types. Annual precipitation is among the most obvious and potentially most impactful, but the model used in this study does not include it whatsoever. Other potentially impactful environmental conditions include soil type and elevation, both of which can significantly impact the nutrients available to primary producers in these biomes. In order to further separate the effects of latitude on species richness from, more information on climatic and environmental conditions such as these at more local scales could be factored into the model.
-##   The result for the overall analysis of the impacts of latitude on Shannon diversity index values is expected because biomes are delineated based off of a unique set of environmental characteristics. While they were not explicitly analyzed in this study, environmental and climatic conditions are known to have a significant impact on biodiversity, and if latitude is having a significant impact on Shannon diversity indices across biomes, then some interaction between biome type and latitude is to be expected. Additionally, some of the biomes used in this study span 16 degrees of latitude, so if there is an overall effect of latitude and an overall effect of biome, a significant interaction between the two would be expected. While there are some very large biomes like Temperate Prairie Parklands, many of them are not so large as to span 16 degrees of latitude, so an interaction between latitude and biome is likely to be insignificant in other biomes that only span 4 degrees of latitude, for instance. As a result of this, there is likely some variability in the data, depending on which scale you are looking at. In order to determine whether the interaction between biome and latitude is consistent across broader biome types, I grouped each of the biomes used in this study into 6 broader biomes.
-##   With regards to the data for the western mountain biome type, it is interesting to note that the three biome which show an increase in Shannon diversity indices with increasing latitude are all clustered geographically in or near the pacific northwest, and they are likely more similar to each other than they are to any of the other three biomes shown below. However, the finding that the interaction between latitude and biome is insignificant for the western mountain biomes, which is surprising because an interaction between the two explanatory variables could potentially produce the distinct differences in slopes between biome types shown in figure 3. Three out of the five western mountain biomes show this relationship along with the appalachian broadleaf forest and the Arizona-New Mexico semi-desert mountains. While other biomes show this relationship, such as the mixed forest and the american semi-desert biomes, it seems as though mountainous biomes may create a unique set of environmental conditions that favor increasing species richness with increasing latitude. Further research will be needed to determine what is causing this apparent trend.
-##   The source of the raw data used in this study is also potentially biased and incomplete. In order for an observation to be marked as research grade on iNaturalist, an observation of a particular plant species needs to be made. It is possible that one source of bias in this data comes from the “visibility” of species. Some plant species are large and produce very showy floral displays whereas others are relatively small and inconspicuous. Therefore, the data used in this study may be biased in favor of larger and showier species such as Helianthus species and therefore it could produce an inflated estimate of the relative abundance of Helianthus species. In contrast, the smaller and less conspicuous species such as those in the genus Polygala may be overlooked in the environment very easily, and the data may produce a deflated estimate of the abundance of such species. However, with the number of ecologists and other avid naturalists that utilize iNaturalist, it may be safe to assume that most of the species that are present in an area are represented in the dataset in some capacity.
+## The prediction that an increase in latitude would correspond to a decrease in Shannon diversity index values was supported by the data. As was shown in Table 2, the p value for the linear relationship between latitude and Shannon diversity index is highly significant (p\<0.01). Interestingly, not all of the biomes included in this study showed this type of relationship. Out of the 24 biomes included in this study, 9 of them showed a positive relationship between latitude and Shannon diversity indices, showing that the relationship between latitude and biodiversity may not more complicated than simple changes in biomes and changes in latitude. That being said, the data shows that differences between biomes (i.e. environmental conditions) can account for some of the variability seen in the data. There are many conditions or sets of conditions that are unique to different biome types. Annual precipitation is among the most obvious and potentially most impactful, but the model used in this study does not include it whatsoever. Other potentially impactful environmental conditions include soil type and elevation, both of which can significantly impact the nutrients available to primary producers in these biomes. In order to further separate the effects of latitude on species richness from, more information on climatic and environmental conditions such as these at more local scales could be factored into the model.
+## The result for the overall analysis of the impacts of latitude on Shannon diversity index values is expected because biomes are delineated based off of a unique set of environmental characteristics. However, there was no significant effect of the interaction between latitude and biome type found in any of the biome types except for the eastern forests. Interestingly, the overall analysis found a statistically significant impact of the interaction term at 0.05 confidence level, possibly indicating that this type of impact is more likely to be seen across broader spatial scales. 
+## With regards to the data for the western mountain biome type, it is interesting to note that the three biome which show an increase in Shannon diversity indices with increasing latitude are all clustered geographically in or near the pacific northwest, and they are likely more similar to each other than they are to any of the other three biomes shown below. However, the finding that the interaction between latitude and biome is insignificant for the western mountain biomes is surprising because an interaction between the two explanatory variables could potentially produce the distinct differences in slopes between biome types shown in figure 3. Three out of the five western mountain biomes show this relationship along with the appalachian broadleaf forest and the Arizona-New Mexico semi-desert mountains. While other biomes show this relationship, such as the mixed forest and the american semi-desert biomes, it seems as though mountainous biomes may create a unique set of environmental conditions that favor increasing species richness with increasing latitude. Further research will be needed to determine what is causing this apparent trend.
+## The source of the raw data used in this study is also potentially biased and incomplete. In order for an observation to be marked as research grade on iNaturalist, an observation of a particular plant species needs to be made. It is possible that one source of bias in this data comes from the "visibility" of species. Some plant species are large and produce very showy floral displays whereas others are relatively small and inconspicuous. Therefore, the data used in this study may be biased in favor of larger and showier species such as Helianthus species and therefore it could produce an inflated estimate of the relative abundance of Helianthus species. In contrast, the smaller and less conspicuous species such as those in the genus Polygala may be overlooked in the environment very easily, and the data may produce a deflated estimate of the abundance of such species.
 
 # Conclusion
-##    In most cases, the data does provide strong support for the alternative hypothesis. The p-value for the response of Shannon diversity index values in every case was either significant (p<0.05) or marginally significant (p<0.1). The two biome types that showed a marginally significant change in shannon index values in response to latitude were the desert and western mountain biomes. The desert biomes tended to have lower levels of biodiversity in general, and for the most part they only occur in the southwestern United States, in a relatively narrow latitudinal band so it is not surprising that it would be difficult to detect a significant impact of latitude on species diversity in these environments. For the western mountain biomes, the positive relationship between latitude and Shannon diversity index values is only marginally significant, and it is possible that with more replicates, the β1 value could appear negative as well. More research will be needed with more rigorous sampling on these biome types to determine if these two biomes are an exception to the trends shown in this study. All other biome types provided significant evidence in support of the alternative hypothesis on a smaller scale. Table 8 shows the β1 values for all biome types and for the overall analysis. As is shown, the β1 value for every analysis except for the western mountains biome type is negative, indicating that the as latitude increases, Shannon diversity index values decrease. On a larger scale, the p-value generated for the impact of latitude on Shannon Diversity index values is highly significant (p=0.000), therefore the null hypothesis can be rejected at the larger scale.
+
+## In most cases, the data does provide strong support for the alternative hypothesis. The p-value for the response of Shannon diversity index values in every case was either significant (p\<0.05) or marginally significant (p\<0.1). The two biome types that showed a marginally significant change in shannon index values in response to latitude were the desert and western mountain biomes. The desert biomes tended to have lower levels of biodiversity in general, and for the most part they only occur in the southwestern United States, in a relatively narrow latitudinal band so it is not surprising that it would be difficult to detect a significant impact of latitude on species diversity in these environments. For the western mountain biomes, the positive relationship between latitude and Shannon diversity index values is only marginally significant, and it is possible that with more replicates, the $\beta$~1~ value could appear negative as well. More research will be needed with more rigorous sampling on these biome types to determine if these two biomes are an exception to the trends shown in this study. All other biome types provided significant evidence in support of the alternative hypothesis on a smaller scale. Table 8 shows the $\beta$~1~ values for all biome types and for the overall analysis. As is shown, the $\beta$~1~ value for every analysis except for the western mountains biome type is negative, indicating that the as latitude increases, Shannon diversity index values decrease. On a larger scale, the p-value generated for the impact of latitude on Shannon Diversity index values is highly significant (p=0.000), therefore the null hypothesis can be rejected at the larger scale.
 
 # References
+
 ## Currie, D.J., Mittelbach, G.G., Cornell, H.V., Field, R., Guégan, J.-F., Hawkins, B.A., 445 Kaufman, D.M., Kerr, J.T., Oberdorff, T., O'Brien, E. & Turner, J.R.G. (2004) 446 Predictions and tests of climate‐based hypotheses of broad‐scale variation 447 in taxonomic richness. Ecology Letters, 7, 1121-1134.
-## Mittelbach, G.G., Schemske, D.W., Cornell, H.V., Allen, A.P., Brown, J.M., Bush, M.B., 490 Harrison, S.P., Hurlbert, A.H., Knowlton, N., Lessios, H.H., McCain, C.M., 491 McCune, A.R., McDade, L.A.,  McPeek, M.A., Near, T.J., Ricklefs, R.E., Roy, K., Sax, 492 D.F., Schluter, D., Sobel, J.M. & Turelli,    M.  Evolution and the latitudinal 493 diversity gradient: speciation, extinction and biogeography. Ecology Letters, 494, 315-331.
+
+## Mittelbach, G.G., Schemske, D.W., Cornell, H.V., Allen, A.P., Brown, J.M., Bush, M.B., 490 Harrison, S.P., Hurlbert, A.H., Knowlton, N., Lessios, H.H., McCain, C.M., 491 McCune, A.R., McDade, L.A., McPeek, M.A., Near, T.J., Ricklefs, R.E., Roy, K., Sax, 492 D.F., Schluter, D., Sobel, J.M. & Turelli, M. Evolution and the latitudinal 493 diversity gradient: speciation, extinction and biogeography. Ecology Letters, 494, 315-331.
+
 ## Rosenzweig, M.L. (1995) Species Diversity in Space and Time. Cambridge University 502 Press, Cambridge, UK.
+
 ## Shannon, C.E.(1948) A mathematical theory of communication. The Bell System Technical Journal, 27, 372-423 and 623-656.
 
-#GBIF Downloads:
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.e3qgzs
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.qfk9bf
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.qfk9bf
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.5fng8y
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.4r9guh
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.v9rpyc
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.u24vwt
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.sz6h3c
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.737e9p
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.bgxmvb
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.f4rszx
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.eakrjf
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.uvsveh
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.bcmzff
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.v7kpsm
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.zcj5s3
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.sz8ddy
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.fubjmj
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.zrdfew
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.562cbs
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.5mjpu3
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.xcwer7
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.fz8mfb
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.7kjvn2
-##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.mypnhb
+# GBIF Downloads: 
 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.e3qgzs> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.qfk9bf> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.qfk9bf> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.5fng8y> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.4r9guh> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.v9rpyc> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.u24vwt> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.sz6h3c> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.737e9p> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.bgxmvb> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.f4rszx> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.eakrjf> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.uvsveh> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.bcmzff> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.v7kpsm> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.zcj5s3> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.sz8ddy> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.fubjmj> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.zrdfew> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.562cbs> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.5mjpu3> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.xcwer7> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.fz8mfb> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.7kjvn2> 
+## GBIF.org (8 October 2023) GBIF Occurrence Download <https://doi.org/10.15468/dl.mypnhb>
