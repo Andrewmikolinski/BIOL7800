@@ -915,3 +915,37 @@ coef(modelDLat)[2]
 
 # Conclusion
 ##    In most cases, the data does provide strong support for the alternative hypothesis. The p-value for the response of Shannon diversity index values in every case was either significant (p<0.05) or marginally significant (p<0.1). The two biome types that showed a marginally significant change in shannon index values in response to latitude were the desert and western mountain biomes. The desert biomes tended to have lower levels of biodiversity in general, and for the most part they only occur in the southwestern United States, in a relatively narrow latitudinal band so it is not surprising that it would be difficult to detect a significant impact of latitude on species diversity in these environments. For the western mountain biomes, the positive relationship between latitude and Shannon diversity index values is only marginally significant, and it is possible that with more replicates, the β1 value could appear negative as well. More research will be needed with more rigorous sampling on these biome types to determine if these two biomes are an exception to the trends shown in this study. All other biome types provided significant evidence in support of the alternative hypothesis on a smaller scale. Table 8 shows the β1 values for all biome types and for the overall analysis. As is shown, the β1 value for every analysis except for the western mountains biome type is negative, indicating that the as latitude increases, Shannon diversity index values decrease. On a larger scale, the p-value generated for the impact of latitude on Shannon Diversity index values is highly significant (p=0.000), therefore the null hypothesis can be rejected at the larger scale.
+
+# References
+## Currie, D.J., Mittelbach, G.G., Cornell, H.V., Field, R., Guégan, J.-F., Hawkins, B.A., 445 Kaufman, D.M., Kerr, J.T., Oberdorff, T., O'Brien, E. & Turner, J.R.G. (2004) 446 Predictions and tests of climate‐based hypotheses of broad‐scale variation 447 in taxonomic richness. Ecology Letters, 7, 1121-1134.
+## Mittelbach, G.G., Schemske, D.W., Cornell, H.V., Allen, A.P., Brown, J.M., Bush, M.B., 490 Harrison, S.P., Hurlbert, A.H., Knowlton, N., Lessios, H.H., McCain, C.M., 491 McCune, A.R., McDade, L.A.,  McPeek, M.A., Near, T.J., Ricklefs, R.E., Roy, K., Sax, 492 D.F., Schluter, D., Sobel, J.M. & Turelli,    M.  Evolution and the latitudinal 493 diversity gradient: speciation, extinction and biogeography. Ecology Letters, 494, 315-331.
+## Rosenzweig, M.L. (1995) Species Diversity in Space and Time. Cambridge University 502 Press, Cambridge, UK.
+## Shannon, C.E.(1948) A mathematical theory of communication. The Bell System Technical Journal, 27, 372-423 and 623-656.
+
+#GBIF Downloads:
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.e3qgzs
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.qfk9bf
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.qfk9bf
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.5fng8y
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.4r9guh
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.v9rpyc
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.u24vwt
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.sz6h3c
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.737e9p
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.bgxmvb
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.f4rszx
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.eakrjf
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.uvsveh
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.bcmzff
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.v7kpsm
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.zcj5s3
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.sz8ddy
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.fubjmj
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.zrdfew
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.562cbs
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.5mjpu3
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.xcwer7
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.fz8mfb
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.7kjvn2
+##GBIF.org (8 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.mypnhb
+
